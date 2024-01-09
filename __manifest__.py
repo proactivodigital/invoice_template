@@ -1,5 +1,5 @@
 {
-    'name': 'Your Module Name',
+    'name': 'Invoice template',
     'version': '1.0',
     'depends': ['base', 'account'],
     'data': [

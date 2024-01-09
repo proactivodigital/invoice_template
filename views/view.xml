@@ -48,8 +48,8 @@
             <xpath expr="//div[contains(@t-attf-class, 'article')]" position="replace">
                 <div t-attf-class="o_company_#{company.id}_layout article o_report_layout_striped {{  'o_report_layout_background' if company.layout_background in ['Geometric', 'Custom']  else  '' }}" t-attf-style="background-image: url({{ 'data:image/png;base64,%s' % company.layout_background_image.decode('utf-8') if company.layout_background_image and company.layout_background == 'Custom' else '/base/static/img/bg_background_template.jpg' if company.layout_background == 'Geometric' else ''}});" t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
                     <div style="font-size: 12px; margin-top: 10px">
-                        <div class="d-flex justify-content-between align-items-center w-100" style="display: flex; margin-top: 10px">
-                            <div class="d-flex justify-content-start align-items-start w-25">
+                        <div class="d-flex justify-content-between align-items-start w-100" style="display: flex; margin-top: 10px">
+                            <div class="d-flex justify-content-start align-items-start w-50">
                                 <t t-if="o">
                                     <p>
                                         NIT: <t t-esc="o.partner_id.vat"/><br />
@@ -69,21 +69,21 @@
                                     </p>
                                 </t>
                             </div>
-                            <div class="d-flex justify-content-between align-items-center w-75">
+                            <div class="d-flex justify-content-between align-items-center w-50">
                                 <t t-if="o">
-                                    <div class="w-25">
+                                    <div>
                                         <strong>Fecha de emisión:</strong>
                                         <p><t t-esc="o.ei_issue_datetime" t-options='{"widget": "date", "date_format": "Y-m-d"}'/></p>
                                     </div>
-                                    <div class="w-25">
+                                    <div>
                                         <strong>Fecha de expedición:</strong>
                                         <p><t t-esc="o.ei_expedition_date" t-options='{"widget": "date"}'/></p>
                                     </div>
-                                    <div class="w-25">
+                                    <div>
                                         <strong>Fecha de vencimiento:</strong>
                                         <p><t t-esc="o.invoice_date_due" t-options='{"widget": "date"}'/></p>
                                     </div>
-                                    <div class="w-25">
+                                    <div>
                                         <strong>Forma de pago:</strong>
                                         <p><t t-esc="o.payment_form_id.name" t-options='{"widget": "date"}'/></p>
                                     </div>

@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="external_layout_striped_custom" inherit_id="web.external_layout_striped">
+            <xpath expr="//div[contains(@class,'header')]" position="replace">
+                <div class="d-flex justify-content-between align-items-center w-100" style="height: 170px; font-size: 12px;">
+                    <div class="d-flex justify-content-center align-items-center">
+                        <div class="logo-infopro" style="width: 140px; height: 100px; margin-right: 15px;">
+                            <img t-if="company.logo" t-att-src="image_data_uri(company.logo)" alt="Logo" style="width: 100%; height: 100%;"/>
+                        </div>
+                        <div class="d-flex justify-content-center align-items-center w-100" style="font-size: 10px">
+                            <t t-esc="res_company.company_details"/>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-center align-items-center">
+                        <div class="qr-infopro" style="width: 100px; height: 100px; margin-right: 15px;">
+                            <t t-if="o and o.ei_qr_image">
+                                <img  t-attf-src="data:image/png;base64,{{ o.ei_qr_image }}" style="width: 100%; height: 100%;"/>
+                            </t>
+                        </div>
+                        <div class="details-infopro">
+                            <t t-if="o">
+                                <p style="font-size: 10px">
+                                    <strong>NIT: </strong> <t t-esc="o.company_id.vat"/><br/>
+                                    <strong>Tipo de organización: </strong> <t t-esc="o.company_id.type_organization_id.name"/> <br/>
+                                    <strong>Tipo de regimén: </strong> <t t-esc="o.company_id.type_regime_id.name"/><br/>
+                                    <strong>Tipo de responsabilidad: </strong> <t t-esc="o.company_id.type_liability_id.name"/><br/>
+                                    <strong>Tipo de operación: </strong> <t t-esc="o.ei_operation"/><br/>
+                                    Factura Electrónica de Venta <strong style="font-size: 20px"> <t t-esc="o.name"/> </strong><br />
+                                    <strong><t t-esc="o.order_ref_number"/></strong>
+                                </p>
+                            </t>
+                            <t t-if="not o">
+                                <p style="font-size: 10px">
+                                    <strong>NIT: </strong> 811030151-4<br />
+                                    <strong>Tipo de organización: </strong> Persona Jurídica <br />
+                                    <strong>Tipo de regimén: </strong> Impuesto sobre las ventas – IVA<br />
+                                    <strong>Tipo de responsabilidad: </strong> Agente de retención IVA<br />
+                                    <strong>Tipo de operación: </strong> standard<br />
+                                    Factura Electrónica de Venta <strong style="font-size: 20px"> / </strong>
+                                </p>
+                            </t>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+
+            <xpath expr="//div[contains(@t-attf-class, 'article')]" position="replace">
+                <div t-attf-class="o_company_#{company.id}_layout article o_report_layout_striped {{  'o_report_layout_background' if company.layout_background in ['Geometric', 'Custom']  else  '' }}" t-attf-style="background-image: url({{ 'data:image/png;base64,%s' % company.layout_background_image.decode('utf-8') if company.layout_background_image and company.layout_background == 'Custom' else '/base/static/img/bg_background_template.jpg' if company.layout_background == 'Geometric' else ''}});" t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
+                    <div style="font-size: 12px; margin-top: 10px">
+                        <div class="d-flex justify-content-between align-items-center w-100" style="display: flex; margin-top: 10px">
+                            <div class="d-flex justify-content-start align-items-start w-25">
+                                <t t-if="o">
+                                    <p>
+                                        NIT: <t t-esc="o.partner_id.vat"/><br />
+                                        <t t-esc="o.partner_id.name"/><br />
+                                        <t t-esc="o.partner_id.street"/><br />
+                                        <t t-esc="o.partner_id.phone"/><br />
+                                        <t t-esc="o.partner_id.email"/>
+                                    </p>
+                                </t>
+                                <t t-if="not o">
+                                    <p>
+                                        NIT: 890913957-0<br />
+                                        Estampados Modatex S.A.S<br />
+                                        Calle 76 No. 55 - 84<br />
+                                        +572772222<br />
+                                        facturacion@modatex.co
+                                    </p>
+                                </t>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center w-75">
+                                <t t-if="o">
+                                    <div class="w-25">
+                                        <strong>Fecha de emisión:</strong>
+                                        <p><t t-esc="o.ei_issue_datetime" t-options='{"widget": "date", "date_format": "Y-m-d"}'/></p>
+                                    </div>
+                                    <div class="w-25">
+                                        <strong>Fecha de expedición:</strong>
+                                        <p><t t-esc="o.ei_expedition_date" t-options='{"widget": "date"}'/></p>
+                                    </div>
+                                    <div class="w-25">
+                                        <strong>Fecha de vencimiento:</strong>
+                                        <p><t t-esc="o.invoice_date_due" t-options='{"widget": "date"}'/></p>
+                                    </div>
+                                    <div class="w-25">
+                                        <strong>Forma de pago:</strong>
+                                        <p><t t-esc="o.payment_form_id.name" t-options='{"widget": "date"}'/></p>
+                                    </div>
+                                </t>
+                                <t t-if="not o">
+                                    <div>
+                                        <strong>Fecha de emisión:</strong>
+                                        <p>2023-12-29</p>
+                                    </div>
+                                    <div>
+                                        <strong>Fecha de expedición:</strong>
+                                        <p>2023-12-29</p>
+                                    </div>
+                                    <div>
+                                        <strong>Fecha de vencimiento:</strong>
+                                        <p>2024-01-19</p>
+                                    </div>
+                                    <div>
+                                        <strong>Forma de pago:</strong>
+                                        <p>Credito</p>
+                                    </div>
+                                </t>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-between align-items-center w-100">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Descripcion</th>
+                                        <th scope="col">Notas</th>
+                                        <th scope="col">Cantidad</th>
+                                        <th scope="col">Precio Unitario</th>
+                                        <th scope="col">Impuestos</th>
+                                        <th scope="col">Importe</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-if="o">
+                                        <t t-set="line_number" t-value="1"/>
+                                        <t t-foreach="o.invoice_line_ids" t-as="line">
+                                            <tr>
+                                                <th><t t-esc="line_number"/></th>
+                                                <td><t t-esc="line.name"/></td>
+                                                <td>
+                                                    <span t-field="line.ei_notes"/>
+                                                </td>
+                                                <td><t t-esc="line.quantity"/></td>
+                                                <td><t t-esc="line.price_unit"/></td>
+                                                <td>
+                                                    <t t-foreach="line.tax_ids" t-as="tax">
+                                                        <p><t t-esc="tax.amount"/></p>
+                                                    </t>
+                                                </td>
+                                                <td><t t-esc="line.quantity * line.price_unit" /></td>
+                                            </tr>
+                                            <t t-set="line_number" t-value="line_number + 1"/>
+                                        </t>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="d-flex justify-content-between align-items-center w-100">
+                            <div class="d-flex justify-content-between align-items-center w-100">
+                                <t t-if="o">
+                                    <div class="w-50">
+                                        <p>
+                                            <strong>Las retenciones son solo a nivel informativo.</strong><br/>
+                                            <strong>Número de autorización de facturación: </strong> <t t-esc="o.resolution_id.resolution_resolution"/><br/>
+                                            <strong>Fecha: </strong> <t t-esc="o.resolution_id.resolution_resolution_date"/><br/>
+                                            <strong>Rango autorizado desde: </strong> <t t-esc="o.resolution_id.resolution_prefix"/> <t t-esc="o.resolution_id.resolution_from"/> <strong> a </strong> <t t-esc="o.resolution_id.resolution_prefix"/> <t t-esc="o.resolution_id.resolution_to"/><br/>
+                                            <strong>Válido desde: </strong> <t t-esc="o.resolution_id.resolution_date_from"/> <strong> a </strong> <t t-esc="o.resolution_id.resolution_date_to"/><br/>
+                                            <strong>Representación gráfica de facturación electrónica impresa por computador con software propio por <t t-esc="o.company_id.business_name"/></strong><br/>
+                                        </p>
+                                        <t t-esc="o.narration"/><br/>
+                                        <strong><t t-esc="o.resolution_id.resolution_type_document_id.type"/>: </strong> <t t-esc="o.ei_uuid"/>
+                                    </div>
+                                    <div class="d-flex justify-content-end align-items-center w-50 fw-bold">
+                                        <table class="table">
+                                            <tbody>
+                                                <tr>
+                                                    <td>Moneda</td>
+                                                    <td><t t-esc="o.currency_id.name"/></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Total sin retenciones</td>
+                                                    <td>
+                                                        <t t-esc="o.currency_id.symbol" />
+                                                        <t t-esc="'{:,.2f}'.format(int(o.ei_amount_total_no_withholding)).replace(',', ' ').replace('.', ',').replace(' ', '.')"/>
+                                                    </td>
+                                                </tr>
+                                                <t t-if="tax_totals and 'subtotals' in tax_totals">
+                                                    <t t-foreach="tax_totals['subtotals']" t-as="subtotal">
+                                                        <tr>
+                                                            <td><t t-esc="subtotal['name']"/></td>
+                                                            <td><t t-esc="subtotal['formatted_amount']"/></td>
+                                                        </tr>
+                                                    </t>
+                                                </t>
+                                                <t t-if="tax_totals and 'groups_by_subtotal' in tax_totals and subtotal_to_show in tax_totals['groups_by_subtotal']">
+                                                    <t t-foreach="tax_totals['groups_by_subtotal'][subtotal_to_show]" t-as="amount_by_group">
+                                                        <tr>
+                                                            <td><t t-esc="amount_by_group['tax_group_name']"/></td>
+                                                            <td><t t-esc="amount_by_group['formatted_tax_group_amount']"/></td>
+                                                        </tr>
+                                                    </t>
+                                                </t>
+
+                                                <tr>
+                                                    <td>Total</td>
+                                                    <td>
+                                                        <t t-esc="o.currency_id.symbol" />
+                                                        <t t-esc="'{:,.2f}'.format(int(o.amount_total)).replace(',', ' ').replace('.', ',').replace(' ', '.')"/>
+                                                    </td>
+                                                </tr>
+                                                <t t-if="payments_vals">
+                                                    <t t-foreach="payments_vals" t-as="payment">
+                                                        <tr>
+                                                            <td><t t-esc="payment['date']"/></td>
+                                                            <td><t t-esc="payment['amount']"/></td>
+                                                        </tr>
+                                                    </t>
+                                                </t>
+                                                <t t-if="o.amount_residual">
+                                                    <tr>
+                                                        <td>Importe adeudado</td>
+                                                        <td>
+                                                            <t t-esc="o.currency_id.symbol" />
+                                                            <t t-esc="'{:,.2f}'.format(int(o.amount_residual)).replace(',', ' ').replace('.', ',').replace(' ', '.')"/>
+                                                        </td>
+                                                    </tr>
+                                                </t>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </t>
+                            </div>
+                        </div> 
+                    </div>
+                </div>
+            </xpath> 
+
+            <xpath expr="//div[contains(@t-attf-class, 'footer')]" position="replace">
+                <div t-attf-class="o_company_#{company.id}_layout footer o_background_footer">
+                    <div class="text-center">
+                        <div t-if="report_type == 'pdf'" class="text-muted">
+                            Página:
+                            <span class="page"/>
+                            of
+                            <span class="topage"/>
+                        </div>
+                    </div>
+                </div>
+            </xpath> 
+        </template>
+    </data>
+</odoo>

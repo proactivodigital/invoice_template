@@ -177,6 +177,12 @@
                                                         <t t-esc="'{:,.2f}'.format(int(o.ei_amount_total_no_withholding)).replace(',', ' ').replace('.', ',').replace(' ', '.')"/>
                                                     </td>
                                                 </tr>
+                                                <tr t-if="doc.tax_ids">
+                                                    <td>IVA total</td>
+                                                    <td>
+                                                        <span t-field="sum(doc.tax_ids.amount)"/>
+                                                    </td>
+                                                </tr>
                                                 <t t-if="tax_totals and 'subtotals' in tax_totals">
                                                     <t t-foreach="tax_totals['subtotals']" t-as="subtotal">
                                                         <tr>

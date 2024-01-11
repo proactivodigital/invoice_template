@@ -171,7 +171,7 @@
                                                     <td><t t-esc="o.currency_id.name"/></td>
                                                 </tr>
                                                 <tr>
-                                                    <td>Total sin retenciones</td>
+                                                    <td>Subtotal</td>
                                                     <td>
                                                         <t t-esc="o.currency_id.symbol" />
                                                         <t t-esc="'{:,.2f}'.format(int(o.ei_amount_total_no_withholding)).replace(',', ' ').replace('.', ',').replace(' ', '.')"/>
@@ -186,11 +186,9 @@
                                                     </t>
                                                 </t>
                                                 <tr>
-                                                    <td>Total IVA</td>
+                                                    <td>IVA</td>
                                                     <td>
-                                                        <t t-foreach="tax_totals['groups_by_subtotal'][subtotal_to_show]" t-as="amount_by_group">
-                                                            <t t-esc="amount_by_group['formatted_tax_group_amount']"/>
-                                                        </t>    
+                                                        <t t-esc="'{:,.2f}'.format(int(o.ei_amount_tax_no_withholding)).replace(',', ' ').replace('.', ',').replace(' ', '.')"/>
                                                     </td>
                                                 </tr>
                                                 <tr>

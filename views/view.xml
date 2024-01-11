@@ -150,7 +150,7 @@
 
                         <div class="d-flex justify-content-between align-items-center w-100">
                             <div class="d-flex justify-content-between align-items-center w-100">
-                                <t t-if="o">
+                                <t t-if="o and 'resolution_id' in o and 'resolution_resolution' in o.resolution_id and 'resolution_resolution_date' in o.resolution_id">
                                     <div class="w-50">
                                         <p>
                                             <strong>Las retenciones son solo a nivel informativo.</strong><br/>

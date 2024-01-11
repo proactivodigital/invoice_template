@@ -96,7 +96,7 @@
                                     </div>
                                     <div>
                                         <strong>Vencimiento:</strong>
-                                        <p><t t-esc="doc.validty_date"/></p>
+                                        <p><t t-esc="doc.validity_date"/></p>
                                     </div>
                                     <div>
                                         <strong>Vendedor:</strong>
@@ -109,15 +109,27 @@
                         <div class="d-flex justify-content-between align-items-center w-100">
                             <table class="table">
                                 <thead>
-                                    <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">Descripcion</th>
-                                        <th scope="col">Notas</th>
-                                        <th scope="col">Cantidad</th>
-                                        <th scope="col">Precio Unitario</th>
-                                        <th scope="col">IVA</th>
-                                        <th scope="col">Importe</th>
-                                    </tr>
+                                    <t t-if="o and 'invoice_line_ids' in o">
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">Descripcion</th>
+                                            <th scope="col">Notas</th>
+                                            <th scope="col">Cantidad</th>
+                                            <th scope="col">Precio Unitario</th>
+                                            <th scope="col">IVA</th>
+                                            <th scope="col">Importe</th>
+                                        </tr>
+                                    </t>
+                                    <t t-if="doc">
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">Descripcion</th>
+                                            <th scope="col">Cantidad</th>
+                                            <th scope="col">Precio Unitario</th>
+                                            <th scope="col">IVA</th>
+                                            <th scope="col">Importe</th>
+                                        </tr>
+                                    </t>
                                 </thead>
                                 <tbody>
                                     <t t-if="o and 'invoice_line_ids' in o">
@@ -140,6 +152,21 @@
                                             </tr>
                                             <t t-set="line_number" t-value="line_number + 1"/>
                                         </t>
+                                    </t>
+                                    <t t-if="doc">
+                                       <t t-set="line_number" t-value="1"/>
+                                       <t t-foreach="doc.lines_to_report" t-as="line">
+                                            <th><t t-esc="line_number"/></th>
+                                            <td><t t-esc="line.name"/></td>
+                                            <td><t t-esc="line.product_uom_qty"/></td>
+                                            <td><t t-esc="line.price_unit"/></td>
+                                            <td>
+                                                <t t-foreach="line.tax_ids" t-as="tax">
+                                                    <p><t t-esc="tax.amount"/></p>
+                                                </t>
+                                            </td>
+                                            <td><t t-esc="line.price_subtotal" /></td>
+                                       </t>
                                     </t>
                                 </tbody>
                             </table>

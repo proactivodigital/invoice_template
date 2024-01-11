@@ -54,7 +54,7 @@
                                         <t t-esc="o.partner_id.email"/>
                                     </p>
                                 </t>
-                                <t t-if="not o">
+                                <t t-if="doc">
                                     <p>
                                         NIT: <t t-esc="doc.partner_id.vat"/><br />
                                         <t t-esc="doc.partner_id.name"/><br />
@@ -83,7 +83,7 @@
                                         <p><t t-esc="o.payment_form_id.name" t-options='{"widget": "date"}'/></p>
                                     </div>
                                 </t>
-                                <t t-if="not o">
+                                <t t-if="doc">
                                     <t t-if="doc.is_subscription">
                                         <div>
                                             <strong>Recurrencia::</strong>

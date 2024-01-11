@@ -30,7 +30,7 @@
                                     <strong><t t-esc="o.order_ref_number"/></strong>
                                 </p>
                             </t>
-                            <t t-if="not o">
+                            <t t-if="doc">
                                 <p style="font-size: 10px">
                                     Cotizacion # <strong style="font-size: 20px"> <t t-esc="doc.name"/> </strong>
                                 </p>

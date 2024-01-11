@@ -85,20 +85,20 @@
                                 </t>
                                 <t t-if="doc">
                                     <t t-if="doc.is_subscription">
-                                        <div>
+                                        <div style="margin-right:3px">
                                             <strong>Recurrencia::</strong>
                                             <p><t t-esc="doc.recurrence_id.name"/></p>
                                         </div>
                                     </t>
-                                    <div>
+                                    <div style="margin-right:3px">
                                         <strong>Fecha de Cotización:</strong>
                                         <p><t t-esc="doc.date_order" t-options='{"widget": "date", "date_format": "Y-m-d"}'/></p>
                                     </div>
-                                    <div>
+                                    <div style="margin-right:3px">
                                         <strong>Vencimiento:</strong>
                                         <p><t t-esc="doc.validity_date" t-options='{"widget": "date", "date_format": "Y-m-d"}'/></p>
                                     </div>
-                                    <div>
+                                    <div style="margin-right:3px">
                                         <strong>Vendedor:</strong>
                                         <p><t t-esc="doc.user_id.name"/></p>
                                     </div>

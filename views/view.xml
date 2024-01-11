@@ -162,7 +162,7 @@
                                                 <td><t t-esc="line.product_uom_qty"/></td>
                                                 <td><t t-esc="line.price_unit"/></td>
                                                 <td>
-                                                    <t t-foreach="line.tax_ids" t-as="tax">
+                                                    <t t-foreach="line.tax_id" t-as="tax">
                                                         <!-- Obtener el porcentaje de impuesto -->
                                                         <t t-esc="tax.amount"/>
                                                         

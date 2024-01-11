@@ -32,12 +32,7 @@
                             </t>
                             <t t-if="not o">
                                 <p style="font-size: 10px">
-                                    <strong>NIT: </strong> 811030151-4<br />
-                                    <strong>Tipo de organización: </strong> Persona Jurídica <br />
-                                    <strong>Tipo de regimén: </strong> Impuesto sobre las ventas – IVA<br />
-                                    <strong>Tipo de responsabilidad: </strong> Agente de retención IVA<br />
-                                    <strong>Tipo de operación: </strong> standard<br />
-                                    Factura Electrónica de Venta <strong style="font-size: 20px"> / </strong>
+                                    Cotizacion # <strong style="font-size: 20px"> <t t-esc="doc.name"/> </strong>
                                 </p>
                             </t>
                         </div>
@@ -61,11 +56,11 @@
                                 </t>
                                 <t t-if="not o">
                                     <p>
-                                        NIT: 890913957-0<br />
-                                        Estampados Modatex S.A.S<br />
-                                        Calle 76 No. 55 - 84<br />
-                                        +572772222<br />
-                                        facturacion@modatex.co
+                                        NIT: <t t-esc="doc.partner_id.vat"/><br />
+                                        <t t-esc="doc.partner_id.name"/><br />
+                                        <t t-esc="doc.partner_id.street"/><br />
+                                        <t t-esc="doc.partner_id.phone"/><br />
+                                        <t t-esc="doc.partner_id.email"/>
                                     </p>
                                 </t>
                             </div>
@@ -89,21 +84,23 @@
                                     </div>
                                 </t>
                                 <t t-if="not o">
+                                    <t t-if="doc.is_subscription">
+                                        <div>
+                                            <strong>Recurrencia::</strong>
+                                            <p><t t-esc="doc.recurrence_id.name"/></p>
+                                        </div>
+                                    </t>
                                     <div>
-                                        <strong>Fecha de emisión:</strong>
-                                        <p>2023-12-29</p>
+                                        <strong>Fecha de Cotización:</strong>
+                                        <p><t t-esc="doc.date_order"/></p>
                                     </div>
                                     <div>
-                                        <strong>Fecha de expedición:</strong>
-                                        <p>2023-12-29</p>
+                                        <strong>Vencimiento:</strong>
+                                        <p><t t-esc="doc.validty_date"/></p>
                                     </div>
                                     <div>
-                                        <strong>Fecha de vencimiento:</strong>
-                                        <p>2024-01-19</p>
-                                    </div>
-                                    <div>
-                                        <strong>Forma de pago:</strong>
-                                        <p>Credito</p>
+                                        <strong>Vendedor:</strong>
+                                        <p><t t-esc="doc.user_id.name"/></p>
                                     </div>
                                 </t>
                             </div>

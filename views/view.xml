@@ -156,13 +156,15 @@
                                     <t t-if="doc">
                                        <t t-set="line_number" t-value="1"/>
                                        <t t-foreach="lines_to_report" t-as="line">
-                                            <th><t t-esc="line_number"/></th>
-                                            <td><t t-esc="line.name"/></td>
-                                            <td><t t-esc="line.product_uom_qty"/></td>
-                                            <td><t t-esc="line.price_unit"/></td>
-                                            <td>
-                                            </td>
-                                            <td><t t-esc="line.price_subtotal" /></td>
+                                            <tr>
+                                                <th><t t-esc="line_number"/></th>
+                                                <td><t t-esc="line.name"/></td>
+                                                <td><t t-esc="line.product_uom_qty"/></td>
+                                                <td><t t-esc="line.price_unit"/></td>
+                                                <td>
+                                                </td>
+                                                <td><t t-esc="line.price_subtotal" /></td>
+                                            </tr>
                                        </t>
                                     </t>
                                 </tbody>
@@ -234,6 +236,46 @@
                                                         <td>
                                                             <t t-esc="o.currency_id.symbol" />
                                                             <t t-esc="'{:,.2f}'.format(int(o.amount_residual)).replace(',', ' ').replace('.', ',').replace(' ', '.')"/>
+                                                        </td>
+                                                    </tr>
+                                                </t>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </t>
+                                <t t-if="doc">
+                                    <div class="w-50">
+                                    </div>
+                                    <div class="d-flex justify-content-end align-items-center w-50 fw-bold">
+                                        <table class="table">
+                                            <tbody>
+                                                <tr>
+                                                    <td>Moneda</td>
+                                                    <td><t t-esc="o.currency_id.name"/></td>
+                                                </tr>
+                                                <t t-if="tax_totals and 'subtotals' in tax_totals">
+                                                    <t t-foreach="tax_totals['subtotals']" t-as="subtotal">
+                                                        <tr>
+                                                            <td>Subtotal</td>
+                                                            <td><t t-esc="subtotal['formatted_amount']"/></td>
+                                                        </tr>
+                                                    </t>
+                                                </t>
+                                                <t t-if="amount_by_group and 'formatted_tax_group_amount' in amount_by_group">
+                                                    <tr>
+                                                        <td>IVA</td>
+                                                        <td>
+                                                            <t t-esc="o.currency_id.symbol" />
+                                                            <t t-esc="'{:,.2f}'.format(int(amount_by_group[formatted_tax_group_amount])).replace(',', ' ').replace('.', ',').replace(' ', '.')"/>
+                                                        </td>
+                                                    </tr>
+                                                </t>
+                                                <t t-if="tax_totals and 'formatted_amount_total' in tax_totals">
+                                                    <tr>
+                                                        <td>Total</td>
+                                                        <td>
+                                                            <t t-esc="o.currency_id.symbol" />
+                                                            <t t-esc="'{:,.2f}'.format(int(tax_totals[formatted_amount_total])).replace(',', ' ').replace('.', ',').replace(' ', '.')"/>
                                                         </td>
                                                     </tr>
                                                 </t>

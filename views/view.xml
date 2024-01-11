@@ -155,7 +155,7 @@
                                     </t>
                                     <t t-if="doc">
                                        <t t-set="line_number" t-value="1"/>
-                                       <t t-foreach="doc.lines_to_report" t-as="line">
+                                       <t t-foreach="lines_to_report" t-as="line">
                                             <th><t t-esc="line_number"/></th>
                                             <td><t t-esc="line.name"/></td>
                                             <td><t t-esc="line.product_uom_qty"/></td>

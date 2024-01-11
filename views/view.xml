@@ -70,7 +70,7 @@
                                 </t>
                             </div>
                             <div class="d-flex justify-content-between align-items-center w-50">
-                                <t t-if="o">
+                                <t t-if="o and 'ei_issue_datetime' in o and 'ei_expedition_date' in o and 'invoice_date_due' in o and 'payment_form_id' in o">
                                     <div>
                                         <strong>Fecha de emisión:</strong>
                                         <p><t t-esc="o.ei_issue_datetime" t-options='{"widget": "date", "date_format": "Y-m-d"}'/></p>

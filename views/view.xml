@@ -54,8 +54,17 @@
                                         <t t-esc="doc.partner_id.email"/>
                                     </p>
                                 </t>
+                                <t t-if="not doc and o">
+                                    <p>
+                                        NIT: <t t-esc="o.partner_id.vat"/><br />
+                                        <t t-esc="o.partner_id.name"/><br />
+                                        <t t-esc="o.partner_id.street"/><br />
+                                        <t t-esc="o.partner_id.phone"/><br />
+                                        <t t-esc="o.partner_id.email"/>
+                                    </p>
+                                </t>
                             </div>
-                            <div class="d-flex justify-content-between align-items-center w-50">
+                            <div class="d-flex justify-content-between align-items-center w-75">
                                 <t t-if="o and 'ei_issue_datetime' in o and 'ei_expedition_date' in o and 'invoice_date_due' in o and 'payment_form_id' in o">
                                     <div>
                                         <strong>Fecha de emisión:</strong>
@@ -83,11 +92,11 @@
                                     </t>
                                     <div>
                                         <strong>Fecha de Cotización:</strong>
-                                        <p><t t-esc="doc.date_order"/></p>
+                                        <p><t t-esc="doc.date_order" t-options='{"widget": "date", "date_format": "Y-m-d"}'/></p>
                                     </div>
                                     <div>
                                         <strong>Vencimiento:</strong>
-                                        <p><t t-esc="doc.validity_date"/></p>
+                                        <p><t t-esc="doc.validity_date" t-options='{"widget": "date", "date_format": "Y-m-d"}'/></p>
                                     </div>
                                     <div>
                                         <strong>Vendedor:</strong>
@@ -236,6 +245,7 @@
                                 </t>
                                 <t t-if="doc">
                                     <div class="w-50">
+
                                     </div>
                                     <div class="d-flex justify-content-end align-items-center w-50 fw-bold">
                                         <table class="table">

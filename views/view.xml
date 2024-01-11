@@ -14,7 +14,7 @@
                     </div>
                     <div class="d-flex justify-content-center align-items-center">
                         <div class="qr-infopro" style="width: 100px; height: 100px; margin-right: 15px;">
-                            <t t-if="o and o.ei_qr_image">
+                            <t t-if="o and 'ei_qr_image' in o">
                                 <img  t-attf-src="data:image/png;base64,{{ o.ei_qr_image }}" style="width: 100%; height: 100%;"/>
                             </t>
                         </div>

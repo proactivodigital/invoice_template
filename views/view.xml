@@ -161,9 +161,7 @@
                                             <td><t t-esc="line.product_uom_qty"/></td>
                                             <td><t t-esc="line.price_unit"/></td>
                                             <td>
-                                                <t t-foreach="line.tax_ids" t-as="tax">
-                                                    <p><t t-esc="tax.amount"/></p>
-                                                </t>
+                                                <t t-esc="line.tax_id" t-as="tax" />
                                             </td>
                                             <td><t t-esc="line.price_subtotal" /></td>
                                        </t>

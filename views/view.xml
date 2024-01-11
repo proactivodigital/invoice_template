@@ -275,7 +275,7 @@
                                                         <td>Total</td>
                                                         <td>
                                                             <t t-esc="o.currency_id.symbol" />
-                                                            <t t-esc="'{:,.2f}'.format(int(tax_totals['formatted_amount_total'])).replace(',', ' ').replace('.', ',').replace(' ', '.')"/>
+                                                            <t t-esc="tax_totals['formatted_amount_total']"/>
                                                         </td>
                                                     </tr>
                                                 </t>

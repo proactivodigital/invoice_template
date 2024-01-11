@@ -45,15 +45,6 @@
                     <div style="font-size: 12px; margin-top: 10px">
                         <div class="d-flex justify-content-between align-items-start w-100" style="display: flex; margin-top: 10px">
                             <div class="d-flex justify-content-start align-items-start w-50">
-                                <t t-if="o">
-                                    <p>
-                                        NIT: <t t-esc="o.partner_id.vat"/><br />
-                                        <t t-esc="o.partner_id.name"/><br />
-                                        <t t-esc="o.partner_id.street"/><br />
-                                        <t t-esc="o.partner_id.phone"/><br />
-                                        <t t-esc="o.partner_id.email"/>
-                                    </p>
-                                </t>
                                 <t t-if="doc">
                                     <p>
                                         NIT: <t t-esc="doc.partner_id.vat"/><br />

@@ -85,20 +85,20 @@
                                 </t>
                                 <t t-if="doc">
                                     <t t-if="doc.is_subscription">
-                                        <div style="margin-right:3px">
+                                        <div style="margin-left:8px; text-align:center">
                                             <strong>Recurrencia::</strong>
                                             <p><t t-esc="doc.recurrence_id.name"/></p>
                                         </div>
                                     </t>
-                                    <div style="margin-right:3px">
+                                    <div style="margin-left:8px; text-align:center">
                                         <strong>Fecha de Cotización:</strong>
                                         <p><t t-esc="doc.date_order" t-options='{"widget": "date", "date_format": "Y-m-d"}'/></p>
                                     </div>
-                                    <div style="margin-right:3px">
+                                    <div style="margin-left:8px; text-align:center">
                                         <strong>Vencimiento:</strong>
                                         <p><t t-esc="doc.validity_date" t-options='{"widget": "date", "date_format": "Y-m-d"}'/></p>
                                     </div>
-                                    <div style="margin-right:3px">
+                                    <div style="margin-left:8px; text-align:center">
                                         <strong>Vendedor:</strong>
                                         <p><t t-esc="doc.user_id.name"/></p>
                                     </div>
@@ -162,6 +162,13 @@
                                                 <td><t t-esc="line.product_uom_qty"/></td>
                                                 <td><t t-esc="line.price_unit"/></td>
                                                 <td>
+                                                    <t t-foreach="line.tax_ids" t-as="tax">
+                                                        <!-- Obtener el porcentaje de impuesto -->
+                                                        <t t-esc="tax.amount"/>
+                                                        
+                                                        <!-- Si deseas mostrar el símbolo de porcentaje (%) -->
+                                                        <t t-if="tax.amount_type == 'percent'">%</t>
+                                                    </t>
                                                 </td>
                                                 <td><t t-esc="line.price_subtotal" /></td>
                                             </tr>

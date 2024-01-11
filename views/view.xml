@@ -19,7 +19,7 @@
                             </t>
                         </div>
                         <div class="details-infopro">
-                            <t t-if="o">
+                            <t t-if="o and 'ei_operation' in o">
                                 <p style="font-size: 10px">
                                     <strong>NIT: </strong> <t t-esc="o.company_id.vat"/><br/>
                                     <strong>Tipo de organización: </strong> <t t-esc="o.company_id.type_organization_id.name"/> <br/>

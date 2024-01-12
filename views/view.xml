@@ -26,6 +26,12 @@
                                     <strong>Tipo de regimén: </strong> <t t-esc="o.company_id.type_regime_id.name"/><br/>
                                     <strong>Tipo de responsabilidad: </strong> <t t-esc="o.company_id.type_liability_id.name"/><br/>
                                     <strong>Tipo de operación: </strong> <t t-esc="o.ei_operation"/><br/>
+                                    <t t-if="o and 'trm_date' in o">
+                                        <strong>Fecha de TRM: </strong> <t t-esc="o.trm_date"/><br/>
+                                    </t>
+                                    <t t-if="o and 'trm_value' in o">
+                                        <strong>Valor de TRM: </strong> <t t-esc="o.trm_value"/><br/>
+                                    </t>
                                     Factura Electrónica de Venta <strong style="font-size: 20px"> <t t-esc="o.name"/> </strong><br />
                                     <strong><t t-esc="o.order_ref_number"/></strong>
                                 </p>
@@ -80,7 +86,7 @@
                                     </div>
                                     <div>
                                         <strong>Forma de pago:</strong>
-                                        <p><t t-esc="o.payment_form_id.name" t-options='{"widget": "date"}'/></p>
+                                        <p><t t-esc="o.payment_form_id.name"/></p>
                                     </div>
                                 </t>
                                 <t t-if="doc">

@@ -30,7 +30,7 @@
                                         <strong>Fecha de TRM: </strong> <t t-esc="o.trm_date" t-options='{"widget": "date", "date_format": "Y-m-d"}'/><br/>
                                     </t>
                                     <t t-if="o and 'trm_value' in o">
-                                        <strong>Valor de TRM: </strong> <t t-esc="o.currency_id.symbol" /> <t t-esc="'{:,.2f}'.format(int(o.trm_value)).replace(',', ' ').replace('.', ',').replace(' ', '.')"/><br/>
+                                        <strong>Valor de TRM: </strong> <t t-esc="o.currency_id.symbol" /> <t t-esc="'{:,.2f}'.format(float(o.trm_value)).replace(',', ' ').replace('.', ',').replace(' ', '.')"/><br/>
                                         
                                     </t>
                                     Factura Electrónica de Venta <strong style="font-size: 20px"> <t t-esc="o.name"/> </strong><br />

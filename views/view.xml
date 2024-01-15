@@ -148,27 +148,33 @@
                                                 <td>
                                                     <span t-field="line.ei_notes"/>
                                                 </td>
-                                                <td><t t-esc="line.quantity"/></td>
-                                                <td><t t-esc="line.price_unit"/></td>
+                                                <td>
+                                                    <t t-esc="line.quantity"/>
+                                                </td>
+                                                <td>
+                                                    <t t-esc="o.currency_id.symbol" />
+                                                    <t t-esc="'{:,.2f}'.format(float(line.price_unit)).replace(',', ' ').replace('.', ',').replace(' ', '.')"/>
+                                                </td>
                                                 <td>
                                                     <t t-foreach="line.tax_ids" t-as="tax">
                                                         <p><t t-esc="tax.amount"/></p>
                                                     </t>
                                                 </td>
-                                                <td><t t-esc="line.quantity * line.price_unit" /></td>
+                                                <td>
+                                                    <t t-esc="o.currency_id.symbol" />
+                                                    <t t-esc="'{:,.2f}'.format(float(line.quantity * line.price_unit)).replace(',', ' ').replace('.', ',').replace(' ', '.')"/>
+                                                </td>
                                             </tr>
                                             <t t-set="line_number" t-value="line_number + 1"/>
                                         </t>
                                     </t>
                                     <t t-if="doc">
-                                        <t t-set="line_number" t-value="1"/>
                                         <t t-foreach="lines_to_report" t-as="line">
 
                                             <t t-set="current_subtotal" t-value="current_subtotal + line.price_subtotal" groups="account.group_show_line_subtotals_tax_excluded"/>
                                             <t t-set="current_subtotal" t-value="current_subtotal + line.price_total" groups="account.group_show_line_subtotals_tax_included"/>
 
                                             <tr t-att-class="'bg-200 fw-bold o_line_section' if line.display_type == 'line_section' else 'fst-italic o_line_note' if line.display_type == 'line_note' else ''">
-                                                <th><t t-esc="line_number"/></th>
                                                 <t t-if="not line.display_type">
                                                     <td name="td_name"><span t-field="line.name"/></td>
                                                     <td name="td_quantity" class="text-end">
@@ -201,7 +207,6 @@
                                                         <span t-field="line.name"/>
                                                     </td>
                                                 </t>
-                                                <t t-set="line_number" t-value="line_number + 1"/>
                                             </tr>
 
                                             <t t-if="current_section and (line_last or doc.order_line[line_index+1].display_type == 'line_section') and not line.is_downpayment">

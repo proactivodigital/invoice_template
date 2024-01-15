@@ -313,8 +313,8 @@
                                                         </tr>
                                                     </t>
                                                 </t>
-                                                <t t-if="amount_by_group and 'formatted_tax_group_amount' in amount_by_group">
-                                                    <t t-foreach="tax_totals['groups_by_subtotal'][subtotal_to_show]" t-as="subtotal">
+                                                <t t-if="tax_totals and 'groups_by_subtotal' in tax_totals and 'subtotal_to_show' in tax_totals['groups_by_subtotal']">
+                                                    <t t-foreach="tax_totals['groups_by_subtotal']['subtotal_to_show']" t-as="subtotal">
                                                         <tr>
                                                             <td>IVA</td>
                                                             <td>

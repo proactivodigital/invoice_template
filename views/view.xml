@@ -313,15 +313,18 @@
                                                         </tr>
                                                     </t>
                                                 </t>
-                                                <t t-if="amount_by_group and 'formatted_tax_group_amount' in amount_by_group">
-                                                    <tr>
-                                                        <td>IVA</td>
-                                                        <td>
-                                                            <t t-esc="o.currency_id.symbol" />
-                                                            <t t-esc="'{:,.2f}'.format(int(amount_by_group['formatted_tax_group_amount'])).replace(',', ' ').replace('.', ',').replace(' ', '.')"/>
-                                                        </td>
-                                                    </tr>
-                                                </t>
+                                                <tr>
+                                                    <div class="clearfix" name="so_total_summary">
+                                                        <div id="total" class="row" name="total">
+                                                            <div t-attf-class="#{'col-6' if report_type != 'html' else 'col-sm-7 col-md-6'} ms-auto">
+                                                                <table class="table table-sm table-borderless">
+                                                                    <t t-set="tax_totals" t-value="doc.tax_totals"/>
+                                                                    <t t-call="account.document_tax_totals"/>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </tr>
                                                 <t t-if="tax_totals and 'formatted_amount_total' in tax_totals">
                                                     <tr>
                                                         <td>Total</td>

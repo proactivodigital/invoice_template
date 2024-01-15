@@ -91,7 +91,7 @@
                                     </div>
                                 </t>
                                 <t t-if="doc">
-                                    <t t-if="doc.is_subscription">
+                                    <t t-if="doc.is_subscription and 'recurrence_id' in doc">
                                         <div style="margin-left:8px; text-align:center">
                                             <strong>Recurrencia::</strong>
                                             <p><t t-esc="doc.recurrence_id.name"/></p>

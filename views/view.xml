@@ -313,16 +313,15 @@
                                                         </tr>
                                                     </t>
                                                 </t>
-                                                <t t-if="tax_totals and 'groups_by_subtotal' in tax_totals and 'subtotal_to_show' in tax_totals['groups_by_subtotal']">
-                                                    <t t-foreach="tax_totals['groups_by_subtotal']['subtotal_to_show']" t-as="subtotal">
-                                                        <tr>
-                                                            <td>IVA</td>
-                                                            <td>
-                                                                <t t-esc="o.currency_id.symbol" />
-                                                                <t t-esc="'{:,.2f}'.format(float(subtotal['formatted_tax_group_amount'])).replace(',', ' ').replace('.', ',').replace(' ', '.')"/>
-                                                            </td>
-                                                        </tr>
-                                                    </t>
+                                                <t t-set="tax_totals" t-value="doc.tax_totals"/>
+                                                <t t-foreach="tax_totals['groups_by_subtotal'][subtotal_to_show]" t-as="amount_by_group">
+                                                    <tr>
+                                                        <td>IVA</td>
+                                                        <td>
+                                                            <t t-esc="o.currency_id.symbol" />
+                                                            <t t-esc="'{:,.2f}'.format(float(amount_by_group['formatted_tax_group_amount'])).replace(',', ' ').replace('.', ',').replace(' ', '.')"/>
+                                                        </td>
+                                                    </tr>
                                                 </t>
                                                 <t t-if="tax_totals and 'formatted_amount_total' in tax_totals">
                                                     <tr>

@@ -299,40 +299,17 @@
 
                                     </div>
                                     <div class="d-flex justify-content-end align-items-center w-50 fw-bold">
-                                        <table class="table">
-                                            <tbody>
-                                                <tr>
-                                                    <td>Moneda</td>
-                                                    <td><t t-esc="o.currency_id.name"/></td>
-                                                </tr>
-                                                <t t-if="tax_totals and 'subtotals' in tax_totals">
-                                                    <t t-foreach="tax_totals['subtotals']" t-as="subtotal">
-                                                        <tr>
-                                                            <td>Subtotal</td>
-                                                            <td><t t-esc="subtotal['formatted_amount']"/></td>
-                                                        </tr>
-                                                    </t>
-                                                </t>
-                                                <t t-set="tax_totals" t-value="doc.tax_totals"/>
-                                                <t t-foreach="tax_totals['groups_by_subtotal'][subtotal_to_show]" t-as="amount_by_group">
-                                                    <tr>
-                                                        <td>IVA</td>
-                                                        <td>
-                                                            <t t-esc="o.currency_id.symbol" />
-                                                            <t t-esc="'{:,.2f}'.format(float(amount_by_group['formatted_tax_group_amount'])).replace(',', ' ').replace('.', ',').replace(' ', '.')"/>
-                                                        </td>
-                                                    </tr>
-                                                </t>
-                                                <t t-if="tax_totals and 'formatted_amount_total' in tax_totals">
-                                                    <tr>
-                                                        <td>Total</td>
-                                                        <td>
-                                                            <t t-esc="tax_totals['formatted_amount_total']"/>
-                                                        </td>
-                                                    </tr>
-                                                </t>
-                                            </tbody>
-                                        </table>
+                                        <div class="clearfix" name="so_total_summary">
+                                            <div id="total" class="row" name="total">
+                                                <div t-attf-class="#{'col-6' if report_type != 'html' else 'col-sm-7 col-md-6'} ms-auto">
+                                                    <table class="table table-sm table-borderless">
+                                                        <!-- Tax totals -->
+                                                        <t t-set="tax_totals" t-value="doc.tax_totals"/>
+                                                        <t t-call="account.document_tax_totals"/>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </t>
                             </div>

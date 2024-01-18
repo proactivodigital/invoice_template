@@ -5,9 +5,7 @@
             <xpath expr="//div[contains(@class,'header')]" position="replace">
                 <div class="d-flex justify-content-between align-items-center w-100" style="height: 170px; font-size: 12px;">
                     <div class="d-flex justify-content-center align-items-center">
-                        <div class="logo-infopro" style="width: 140px; height: 50px; margin-right: 15px;">
-                            <img class="object-fit-cover" t-if="company.logo" t-att-src="image_data_uri(company.logo)" alt="Logo" style="width: 100%; height: 100%; object-fit: contain;"/>
-                        </div>
+                        <img class="object-fit-cover" t-if="company.logo" t-att-src="image_data_uri(company.logo)" alt="Logo"/>
                         <div class="d-flex justify-content-center align-items-center w-100" style="font-size: 10px">
                             <t t-esc="res_company.company_details"/>
                         </div>
@@ -132,8 +130,6 @@
                                             <th scope="col">Descripcion</th>
                                             <th scope="col">Cantidad</th>
                                             <th scope="col">Precio Unitario</th>
-                                            <th scope="col">IVA</th>
-                                            <th scope="col">Importe</th>
                                         </tr>
                                     </t>
                                 </thead>
@@ -185,9 +181,6 @@
                                                     </td>
                                                     <td t-if="display_discount" class="text-end">
                                                         <span t-field="line.discount"/>
-                                                    </td>
-                                                    <td name="td_taxes" class="text-end">
-                                                        <span t-out="', '.join(map(lambda x: (x.description or x.name), line.tax_id))"/>
                                                     </td>
                                                     <td t-if="not line.is_downpayment" name="td_subtotal" class="text-end o_price_total">
                                                         <span t-field="line.price_subtotal" groups="account.group_show_line_subtotals_tax_excluded"/>
@@ -291,18 +284,6 @@
                                                     </tr>
                                                 </t>
                                             </tbody>
-                                        </table>
-                                    </div>
-                                </t>
-                                <t t-if="doc">
-                                    <div class="w-50">
-
-                                    </div>
-                                    <div class="d-flex justify-content-end align-items-center w-50 fw-bold">
-                                        <table class="table table-sm table-borderless">
-                                            <!-- Tax totals -->
-                                            <t t-set="tax_totals" t-value="doc.tax_totals"/>
-                                            <t t-call="account.document_tax_totals"/>
                                         </table>
                                     </div>
                                 </t>

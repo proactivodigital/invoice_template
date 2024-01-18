@@ -4,13 +4,13 @@
         <template id="external_layout_striped_custom" inherit_id="web.external_layout_striped">
             <xpath expr="//div[contains(@class,'header')]" position="replace">
                 <div class="d-flex justify-content-between align-items-center w-100" style="height: 170px; font-size: 12px;">
-                    <div class="d-flex justify-content-center align-items-center">
-                        <img class="object-fit-cover" t-if="company.logo" t-att-src="image_data_uri(company.logo)" alt="Logo"/>
+                    <div class="d-flex justify-content-center align-items-center" style="width:40%">
+                        <img style="width: 35%" t-if="company.logo" t-att-src="image_data_uri(company.logo)" alt="Logo"/>
                         <div class="d-flex justify-content-center align-items-center w-100" style="font-size: 10px">
                             <t t-esc="res_company.company_details"/>
                         </div>
                     </div>
-                    <div class="d-flex justify-content-center align-items-center">
+                    <div class="d-flex justify-content-center align-items-center" style="width:60%">
                         <div class="qr-infopro" style="width: 100px; height: 100px; margin-right: 15px;">
                             <t t-if="o and 'ei_qr_image' in o">
                                 <img  t-attf-src="data:image/png;base64,{{ o.ei_qr_image }}" style="width: 100%; height: 100%;"/>

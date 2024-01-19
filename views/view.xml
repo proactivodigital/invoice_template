@@ -42,6 +42,9 @@
                                     Cotizacion # <strong style="font-size: 20px"> <t t-esc="doc.name"/> </strong>
                                 </p>
                             </t>
+                            <t t-if="not doc and not 'ei_operation' in o">
+                                <t t-esc="o.name"/>
+                            </t>
                         </div>
                     </div>
                 </div>
@@ -61,13 +64,20 @@
                                         <t t-esc="doc.partner_id.email"/>
                                     </p>
                                 </t>
-                                <t t-if="not doc and o">
+                                <t t-if="not doc and o and 'partner_id' in o">
                                     <p>
                                         NIT: <t t-esc="o.partner_id.vat"/><br />
                                         <t t-esc="o.partner_id.name"/><br />
                                         <t t-esc="o.partner_id.street"/><br />
                                         <t t-esc="o.partner_id.phone"/><br />
                                         <t t-esc="o.partner_id.email"/>
+                                    </p>
+                                </t>
+                                <t t-if="not doc and o and 'number' in o and 'employee_id' in o">
+                                    <p>
+                                        Nómina electrónica: <t t-esc="o.number"/><br />
+                                        <t t-esc="o.employee_id.address_home_id.name"/><br />
+                                        <t t-esc="o.employee_id.address_home_id.contact_address"/>
                                     </p>
                                 </t>
                             </div>
@@ -113,201 +123,207 @@
                             </div>
                         </div>
 
-                        <div class="d-flex justify-content-between align-items-center w-100">
-                            <table class="table">
-                                <thead>
-                                    <t t-if="o and 'invoice_line_ids' in o">
-                                        <tr>
-                                            <th scope="col">#</th>
-                                            <th scope="col">Descripcion</th>
-                                            <th scope="col">Notas</th>
-                                            <th scope="col">Cantidad</th>
-                                            <th scope="col">Precio Unitario</th>
-                                            <th scope="col">IVA</th>
-                                            <th scope="col">Importe</th>
-                                        </tr>
-                                    </t>
-                                    <t t-if="doc">
-                                        <tr>
-                                            <th scope="col">Descripcion</th>
-                                            <th scope="col">Cantidad</th>
-                                            <th scope="col">Precio Unitario</th>
-                                            <th scope="col">IVA</th>
-                                            <th scope="col">Importe</th>
-                                        </tr>
-                                    </t>
-                                </thead>
-                                <tbody>
-                                    <t t-if="o and 'invoice_line_ids' in o">
-                                        <t t-set="line_number" t-value="1"/>
-                                        <t t-foreach="o.invoice_line_ids" t-as="line">
+                        <t t-if="doc or (o and 'partner_id' in o)">
+                            <div class="d-flex justify-content-between align-items-center w-100">
+                                <table class="table">
+                                    <thead>
+                                        <t t-if="o and 'invoice_line_ids' in o">
                                             <tr>
-                                                <th><t t-esc="line_number"/></th>
-                                                <td><t t-esc="line.name"/></td>
-                                                <td>
-                                                    <span t-field="line.ei_notes"/>
-                                                </td>
-                                                <td>
-                                                    <t t-esc="line.quantity"/>
-                                                </td>
-                                                <td>
-                                                    <t t-esc="o.currency_id.symbol" />
-                                                    <t t-esc="'{:,.2f}'.format(float(line.price_unit)).replace(',', ' ').replace('.', ',').replace(' ', '.')"/>
-                                                </td>
-                                                <td>
-                                                    <t t-foreach="line.tax_ids" t-as="tax">
-                                                        <p><t t-esc="tax.amount"/></p>
-                                                    </t>
-                                                </td>
-                                                <td>
-                                                    <t t-esc="o.currency_id.symbol" />
-                                                    <t t-esc="'{:,.2f}'.format(float(line.quantity * line.price_unit)).replace(',', ' ').replace('.', ',').replace(' ', '.')"/>
-                                                </td>
+                                                <th scope="col">#</th>
+                                                <th scope="col">Descripcion</th>
+                                                <th scope="col">Notas</th>
+                                                <th scope="col">Cantidad</th>
+                                                <th scope="col">Precio Unitario</th>
+                                                <th scope="col">IVA</th>
+                                                <th scope="col">Importe</th>
                                             </tr>
-                                            <t t-set="line_number" t-value="line_number + 1"/>
                                         </t>
-                                    </t>
-                                    <t t-if="doc">
-                                        <t t-foreach="lines_to_report" t-as="line">
-
-                                            <t t-set="current_subtotal" t-value="current_subtotal + line.price_subtotal" groups="account.group_show_line_subtotals_tax_excluded"/>
-                                            <t t-set="current_subtotal" t-value="current_subtotal + line.price_total" groups="account.group_show_line_subtotals_tax_included"/>
-
-                                            <tr t-att-class="'bg-200 fw-bold o_line_section' if line.display_type == 'line_section' else 'fst-italic o_line_note' if line.display_type == 'line_note' else ''">
-                                                <t t-if="not line.display_type">
-                                                    <td name="td_name"><span t-field="line.name"/></td>
-                                                    <td name="td_quantity" class="text-end">
-                                                        <span t-field="line.product_uom_qty"/>
-                                                        <span t-field="line.product_uom"/>
-                                                    </td>
-                                                    <td name="td_priceunit" class="text-end">
-                                                        <span t-field="line.price_unit"/>
-                                                    </td>
-                                                    <td t-if="display_discount" class="text-end">
-                                                        <span t-field="line.discount"/>
-                                                    </td>
-                                                    <td name="td_taxes" class="text-end">
-                                                        <span t-out="', '.join(map(lambda x: (x.description or x.name), line.tax_id))"/>
-                                                    </td>
-                                                    <td t-if="not line.is_downpayment" name="td_subtotal" class="text-end o_price_total">
-                                                        <span t-field="line.price_subtotal" groups="account.group_show_line_subtotals_tax_excluded"/>
-                                                        <span t-field="line.price_total" groups="account.group_show_line_subtotals_tax_included"/>
-                                                    </td>
-                                                </t>
-                                                <t t-elif="line.display_type == 'line_section'">
-                                                    <td name="td_section_line" colspan="99">
-                                                        <span t-field="line.name"/>
-                                                    </td>
-                                                    <t t-set="current_section" t-value="line"/>
-                                                    <t t-set="current_subtotal" t-value="0"/>
-                                                </t>
-                                                <t t-elif="line.display_type == 'line_note'">
-                                                    <td name="td_note_line" colspan="99">
-                                                        <span t-field="line.name"/>
-                                                    </td>
-                                                </t>
+                                        <t t-if="doc">
+                                            <tr>
+                                                <th scope="col">Descripcion</th>
+                                                <th scope="col">Cantidad</th>
+                                                <th scope="col">Precio Unitario</th>
+                                                <th scope="col">IVA</th>
+                                                <th scope="col">Importe</th>
                                             </tr>
-
-                                            <t t-if="current_section and (line_last or doc.order_line[line_index+1].display_type == 'line_section') and not line.is_downpayment">
-                                                <tr class="is-subtotal text-end">
-                                                    <td name="td_section_subtotal" colspan="99">
-                                                        <strong class="mr16">Subtotal</strong>
-                                                        <span t-out="current_subtotal" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.pricelist_id.currency_id}"/>
+                                        </t>
+                                    </thead>
+                                    <tbody>
+                                        <t t-if="o and 'invoice_line_ids' in o">
+                                            <t t-set="line_number" t-value="1"/>
+                                            <t t-foreach="o.invoice_line_ids" t-as="line">
+                                                <tr>
+                                                    <th><t t-esc="line_number"/></th>
+                                                    <td><t t-esc="line.name"/></td>
+                                                    <td>
+                                                        <span t-field="line.ei_notes"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="line.quantity"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="o.currency_id.symbol" />
+                                                        <t t-esc="'{:,.2f}'.format(float(line.price_unit)).replace(',', ' ').replace('.', ',').replace(' ', '.')"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-foreach="line.tax_ids" t-as="tax">
+                                                            <p><t t-esc="tax.amount"/></p>
+                                                        </t>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="o.currency_id.symbol" />
+                                                        <t t-esc="'{:,.2f}'.format(float(line.quantity * line.price_unit)).replace(',', ' ').replace('.', ',').replace(' ', '.')"/>
                                                     </td>
                                                 </tr>
+                                                <t t-set="line_number" t-value="line_number + 1"/>
                                             </t>
                                         </t>
-                                    </t>
-                                </tbody>
-                            </table>
-                        </div>
+                                        <t t-if="doc">
+                                            <t t-foreach="lines_to_report" t-as="line">
 
-                        <div class="d-flex justify-content-between align-items-center w-100">
-                            <div class="d-flex justify-content-between align-items-center w-100">
-                                <t t-if="o and 'resolution_id' in o and 'resolution_resolution' in o.resolution_id and 'resolution_resolution_date' in o.resolution_id">
-                                    <div class="w-50">
-                                        <p>
-                                            <strong>Las retenciones son solo a nivel informativo.</strong><br/>
-                                            <strong>Número de autorización de facturación: </strong> <t t-esc="o.resolution_id.resolution_resolution"/><br/>
-                                            <strong>Fecha: </strong> <t t-esc="o.resolution_id.resolution_resolution_date"/><br/>
-                                            <strong>Rango autorizado desde: </strong> <t t-esc="o.resolution_id.resolution_prefix"/> <t t-esc="o.resolution_id.resolution_from"/> <strong> a </strong> <t t-esc="o.resolution_id.resolution_prefix"/> <t t-esc="o.resolution_id.resolution_to"/><br/>
-                                            <strong>Válido desde: </strong> <t t-esc="o.resolution_id.resolution_date_from"/> <strong> a </strong> <t t-esc="o.resolution_id.resolution_date_to"/><br/>
-                                            <strong>Representación gráfica de facturación electrónica impresa por computador con software propio por <t t-esc="o.company_id.business_name"/></strong><br/>
-                                        </p>
-                                        <t t-esc="o.narration"/><br/>
-                                        <strong><t t-esc="o.resolution_id.resolution_type_document_id.type"/>: </strong> <t t-esc="o.ei_uuid"/>
-                                    </div>
-                                    <div class="d-flex justify-content-end align-items-center w-50 fw-bold">
-                                        <table class="table">
-                                            <tbody>
-                                                <tr>
-                                                    <td>Moneda</td>
-                                                    <td><t t-esc="o.currency_id.name"/></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Total sin retenciones</td>
-                                                    <td>
-                                                        <t t-esc="o.currency_id.symbol" />
-                                                        <t t-esc="'{:,.2f}'.format(int(o.ei_amount_total_no_withholding)).replace(',', ' ').replace('.', ',').replace(' ', '.')"/>
-                                                    </td>
-                                                </tr>
-                                                <t t-if="tax_totals and 'subtotals' in tax_totals">
-                                                    <t t-foreach="tax_totals['subtotals']" t-as="subtotal">
-                                                        <tr>
-                                                            <td>Subtotal</td>
-                                                            <td><t t-esc="subtotal['formatted_amount']"/></td>
-                                                        </tr>
+                                                <t t-set="current_subtotal" t-value="current_subtotal + line.price_subtotal" groups="account.group_show_line_subtotals_tax_excluded"/>
+                                                <t t-set="current_subtotal" t-value="current_subtotal + line.price_total" groups="account.group_show_line_subtotals_tax_included"/>
+
+                                                <tr t-att-class="'bg-200 fw-bold o_line_section' if line.display_type == 'line_section' else 'fst-italic o_line_note' if line.display_type == 'line_note' else ''">
+                                                    <t t-if="not line.display_type">
+                                                        <td name="td_name"><span t-field="line.name"/></td>
+                                                        <td name="td_quantity" class="text-end">
+                                                            <span t-field="line.product_uom_qty"/>
+                                                            <span t-field="line.product_uom"/>
+                                                        </td>
+                                                        <td name="td_priceunit" class="text-end">
+                                                            <span t-field="line.price_unit"/>
+                                                        </td>
+                                                        <td t-if="display_discount" class="text-end">
+                                                            <span t-field="line.discount"/>
+                                                        </td>
+                                                        <td name="td_taxes" class="text-end">
+                                                            <span t-out="', '.join(map(lambda x: (x.description or x.name), line.tax_id))"/>
+                                                        </td>
+                                                        <td t-if="not line.is_downpayment" name="td_subtotal" class="text-end o_price_total">
+                                                            <span t-field="line.price_subtotal" groups="account.group_show_line_subtotals_tax_excluded"/>
+                                                            <span t-field="line.price_total" groups="account.group_show_line_subtotals_tax_included"/>
+                                                        </td>
                                                     </t>
-                                                </t>
-                                                <tr>
-                                                    <td>IVA</td>
-                                                    <td>
-                                                        <t t-esc="o.currency_id.symbol" />
-                                                        <t t-esc="'{:,.2f}'.format(int(o.ei_amount_tax_no_withholding)).replace(',', ' ').replace('.', ',').replace(' ', '.')"/>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Total</td>
-                                                    <td>
-                                                        <t t-esc="o.currency_id.symbol" />
-                                                        <t t-esc="'{:,.2f}'.format(int(o.amount_total)).replace(',', ' ').replace('.', ',').replace(' ', '.')"/>
-                                                    </td>
-                                                </tr>
-                                                <t t-if="payments_vals">
-                                                    <t t-foreach="payments_vals" t-as="payment">
-                                                        <tr>
-                                                            <td><t t-esc="payment['date']"/></td>
-                                                            <td><t t-esc="payment['amount']"/></td>
-                                                        </tr>
+                                                    <t t-elif="line.display_type == 'line_section'">
+                                                        <td name="td_section_line" colspan="99">
+                                                            <span t-field="line.name"/>
+                                                        </td>
+                                                        <t t-set="current_section" t-value="line"/>
+                                                        <t t-set="current_subtotal" t-value="0"/>
                                                     </t>
-                                                </t>
-                                                <t t-if="o.amount_residual">
-                                                    <tr>
-                                                        <td>Importe adeudado</td>
-                                                        <td>
-                                                            <t t-esc="o.currency_id.symbol" />
-                                                            <t t-esc="'{:,.2f}'.format(int(o.amount_residual)).replace(',', ' ').replace('.', ',').replace(' ', '.')"/>
+                                                    <t t-elif="line.display_type == 'line_note'">
+                                                        <td name="td_note_line" colspan="99">
+                                                            <span t-field="line.name"/>
+                                                        </td>
+                                                    </t>
+                                                </tr>
+
+                                                <t t-if="current_section and (line_last or doc.order_line[line_index+1].display_type == 'line_section') and not line.is_downpayment">
+                                                    <tr class="is-subtotal text-end">
+                                                        <td name="td_section_subtotal" colspan="99">
+                                                            <strong class="mr16">Subtotal</strong>
+                                                            <span t-out="current_subtotal" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.pricelist_id.currency_id}"/>
                                                         </td>
                                                     </tr>
                                                 </t>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </t>
-                                <t t-if="doc">
-                                    <div class="w-50">
-
-                                    </div>
-                                    <div class="d-flex justify-content-end align-items-center w-50 fw-bold">
-                                        <table class="table table-sm table-borderless">
-                                            <!-- Tax totals -->
-                                            <t t-set="tax_totals" t-value="doc.tax_totals"/>
-                                            <t t-call="account.document_tax_totals"/>
-                                        </table>
-                                    </div>
-                                </t>
+                                            </t>
+                                        </t>
+                                    </tbody>
+                                </table>
                             </div>
-                        </div> 
+
+                            <div class="d-flex justify-content-between align-items-center w-100">
+                                <div class="d-flex justify-content-between align-items-center w-100">
+                                    <t t-if="o and 'resolution_id' in o and 'resolution_resolution' in o.resolution_id and 'resolution_resolution_date' in o.resolution_id">
+                                        <div class="w-50">
+                                            <p>
+                                                <strong>Las retenciones son solo a nivel informativo.</strong><br/>
+                                                <strong>Número de autorización de facturación: </strong> <t t-esc="o.resolution_id.resolution_resolution"/><br/>
+                                                <strong>Fecha: </strong> <t t-esc="o.resolution_id.resolution_resolution_date"/><br/>
+                                                <strong>Rango autorizado desde: </strong> <t t-esc="o.resolution_id.resolution_prefix"/> <t t-esc="o.resolution_id.resolution_from"/> <strong> a </strong> <t t-esc="o.resolution_id.resolution_prefix"/> <t t-esc="o.resolution_id.resolution_to"/><br/>
+                                                <strong>Válido desde: </strong> <t t-esc="o.resolution_id.resolution_date_from"/> <strong> a </strong> <t t-esc="o.resolution_id.resolution_date_to"/><br/>
+                                                <strong>Representación gráfica de facturación electrónica impresa por computador con software propio por <t t-esc="o.company_id.business_name"/></strong><br/>
+                                            </p>
+                                            <t t-esc="o.narration"/><br/>
+                                            <strong><t t-esc="o.resolution_id.resolution_type_document_id.type"/>: </strong> <t t-esc="o.ei_uuid"/>
+                                        </div>
+                                        <div class="d-flex justify-content-end align-items-center w-50 fw-bold">
+                                            <table class="table">
+                                                <tbody>
+                                                    <tr>
+                                                        <td>Moneda</td>
+                                                        <td><t t-esc="o.currency_id.name"/></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Total sin retenciones</td>
+                                                        <td>
+                                                            <t t-esc="o.currency_id.symbol" />
+                                                            <t t-esc="'{:,.2f}'.format(int(o.ei_amount_total_no_withholding)).replace(',', ' ').replace('.', ',').replace(' ', '.')"/>
+                                                        </td>
+                                                    </tr>
+                                                    <t t-if="tax_totals and 'subtotals' in tax_totals">
+                                                        <t t-foreach="tax_totals['subtotals']" t-as="subtotal">
+                                                            <tr>
+                                                                <td>Subtotal</td>
+                                                                <td><t t-esc="subtotal['formatted_amount']"/></td>
+                                                            </tr>
+                                                        </t>
+                                                    </t>
+                                                    <tr>
+                                                        <td>IVA</td>
+                                                        <td>
+                                                            <t t-esc="o.currency_id.symbol" />
+                                                            <t t-esc="'{:,.2f}'.format(int(o.ei_amount_tax_no_withholding)).replace(',', ' ').replace('.', ',').replace(' ', '.')"/>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Total</td>
+                                                        <td>
+                                                            <t t-esc="o.currency_id.symbol" />
+                                                            <t t-esc="'{:,.2f}'.format(int(o.amount_total)).replace(',', ' ').replace('.', ',').replace(' ', '.')"/>
+                                                        </td>
+                                                    </tr>
+                                                    <t t-if="payments_vals">
+                                                        <t t-foreach="payments_vals" t-as="payment">
+                                                            <tr>
+                                                                <td><t t-esc="payment['date']"/></td>
+                                                                <td><t t-esc="payment['amount']"/></td>
+                                                            </tr>
+                                                        </t>
+                                                    </t>
+                                                    <t t-if="o.amount_residual">
+                                                        <tr>
+                                                            <td>Importe adeudado</td>
+                                                            <td>
+                                                                <t t-esc="o.currency_id.symbol" />
+                                                                <t t-esc="'{:,.2f}'.format(int(o.amount_residual)).replace(',', ' ').replace('.', ',').replace(' ', '.')"/>
+                                                            </td>
+                                                        </tr>
+                                                    </t>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </t>
+                                    <t t-if="doc">
+                                        <div class="w-50">
+
+                                        </div>
+                                        <div class="d-flex justify-content-end align-items-center w-50 fw-bold">
+                                            <table class="table table-sm table-borderless">
+                                                <!-- Tax totals -->
+                                                <t t-set="tax_totals" t-value="doc.tax_totals"/>
+                                                <t t-call="account.document_tax_totals"/>
+                                            </table>
+                                        </div>
+                                    </t>
+                                </div>
+                            </div> 
+                        </t>
+
+                        <t t-if="not doc or (o and not 'partner_id' in o)">
+                             <t t-esc="o.edi_payload_html"/><br />
+                        </t>
                     </div>
                 </div>
             </xpath> 

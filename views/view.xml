@@ -326,7 +326,7 @@
                                 <table class="table">
                                     <tbody>
                                         <t t-foreach="o.line_ids" t-as="table_line">
-                                            <t t-if="'provición' not in table_line.display_name.lower()">
+                                            <t t-if="'provisión' not in table_line.display_name.lower()">
                                                 <tr>
                                                     <td>
                                                         <t t-esc="table_line.display_name"/>

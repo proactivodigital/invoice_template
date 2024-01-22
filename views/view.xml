@@ -340,7 +340,8 @@
                                                     <t t-esc="worked_days.number_of_days"/>
                                                 </td>
                                                 <td>
-                                                    <t t-esc="worked_days.amount"/>
+                                                    <t t-esc="o.currency_id.symbol" />
+                                                    <t t-esc="'{:,.2f}'.format(float(worked_days.amount)).replace(',', ' ').replace('.', ',').replace(' ', '.')"/>
                                                 </td>
                                             </tr>
                                         </t>
@@ -356,7 +357,8 @@
                                                     <td>
                                                     </td>
                                                     <td>
-                                                        <t t-esc="table_line.total"/>
+                                                        <t t-esc="o.currency_id.symbol" />
+                                                        <t t-esc="'{:,.2f}'.format(float(table_line.total)).replace(',', ' ').replace('.', ',').replace(' ', '.')"/>
                                                     </td>
                                                 </tr>
                                             </t>
@@ -369,7 +371,8 @@
                                                 <td>
                                                 </td>
                                                 <td>
-                                                    <t t-esc="table_line.amount"/>
+                                                    <t t-esc="o.currency_id.symbol" />
+                                                    <t t-esc="'{:,.2f}'.format(float(table_line.amount)).replace(',', ' ').replace('.', ',').replace(' ', '.')"/>
                                                 </td>
                                             </tr>
                                         </t>

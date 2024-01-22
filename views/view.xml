@@ -76,8 +76,7 @@
                                 <t t-if="not doc and o and 'number' in o and 'employee_id' in o">
                                     <p>
                                         Nómina electrónica: <t t-esc="o.number"/><br />
-                                        <t t-esc="o.employee_id.address_home_id.name"/><br />
-                                        <t t-esc="o.employee_id.address_home_id.contact_address"/>
+                                        <t t-esc="o.employee_id.address_home_id.name"/>
                                     </p>
                                 </t>
                             </div>

@@ -325,7 +325,7 @@
                             <div class="d-flex justify-content-between align-items-center w-100">
                                 <table class="table">
                                     <tbody>
-                                        <t t-foreach="line_ids" t-as="table_line">
+                                        <t t-foreach="o.line_ids" t-as="table_line">
                                             <tr>
                                                 <td>
                                                     <t t-esc="table_line.display_name"/>

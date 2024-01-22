@@ -345,7 +345,7 @@
                                             </tr>
                                         </t>
                                         <t t-foreach="o.line_ids.filtered(lambda line: line.appears_on_payslip)" t-as="table_line">
-                                            <t t-if="'provision' not in table_line.display_name.lower() and 
+                                            <t t-if="'provisión' not in table_line.display_name.lower() and 
                                                     'aporte arl' not in table_line.display_name.lower() and 
                                                     'aporte ccf' not in table_line.display_name.lower() and 
                                                     'empleador' not in table_line.display_name.lower()">

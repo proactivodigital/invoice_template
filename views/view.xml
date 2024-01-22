@@ -322,7 +322,12 @@
                         </t>
 
                         <t t-if="not doc or (o and not 'partner_id' in o)">
-                             <t t-esc="o.edi_payload_html"/><br />
+                            <t t-foreach="o.line_ids" t-as="table_line"> 
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <t t-esc="table_line.display_name"/>
+                                    <t t-esc="table_line.total"/>
+                                </div>
+                            </t>
                         </t>
                     </div>
                 </div>

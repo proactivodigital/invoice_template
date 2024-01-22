@@ -325,15 +325,20 @@
                                 <table class="table">
                                     <tbody>
                                         <t t-foreach="o.line_ids" t-as="table_line">
-                                            <t t-if="'provisión' not in table_line.display_name.lower()">
-                                                <tr>
-                                                    <td>
-                                                        <t t-esc="table_line.display_name"/>
-                                                    </td>
-                                                    <td>
-                                                        <t t-esc="table_line.total"/>
-                                                    </td>
-                                                </tr>
+                                             <t t-foreach="o.line_ids" t-as="table_line">
+                                                <t t-if="'provision' not in table_line.display_name.lower() and 
+                                                        'aporte arl' not in table_line.display_name.lower() and 
+                                                        'aporte ccf' not in table_line.display_name.lower() and 
+                                                        'empleador' not in table_line.display_name.lower()">
+                                                    <tr>
+                                                        <td>
+                                                            <t t-esc="table_line.display_name"/>
+                                                        </td>
+                                                        <td>
+                                                            <t t-esc="table_line.total"/>
+                                                        </td>
+                                                    </tr>
+                                                </t>
                                             </t>
                                         </t>
                                     </tbody>

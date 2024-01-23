@@ -44,7 +44,7 @@
                                     Cotizacion # <strong style="font-size: 20px"> <t t-esc="doc.name"/> </strong>
                                 </p>
                             </t>
-                            <t t-if="not doc and not 'ei_operation' in o">
+                            <t t-if="not doc and not 'ei_operation' in o and 'name' in o">
                                 <t t-esc="o.name"/>
                             </t>
                         </div>

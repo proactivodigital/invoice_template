@@ -384,7 +384,7 @@
                         </t>
 
                         <t t-if="(not doc or (o and not 'partner_id' in o)) and not 'worked_days_line_ids' in o">
-                            <t t-call="account.document_tax_totals"/>
+                            <t t-call="sign.sign_request_logs_user"/>
                         </t>
                     </div>
                 </div>

@@ -44,9 +44,6 @@
                                     Cotizacion # <strong style="font-size: 20px"> <t t-esc="doc.name"/> </strong>
                                 </p>
                             </t>
-                            <t t-if="not doc and not 'ei_operation' in o and 'name' in o">
-                                <t t-esc="o.name"/>
-                            </t>
                         </div>
                     </div>
                 </div>
@@ -245,6 +242,9 @@
                                                 <strong>Rango autorizado desde: </strong> <t t-esc="o.resolution_id.resolution_prefix"/> <t t-esc="o.resolution_id.resolution_from"/> <strong> a </strong> <t t-esc="o.resolution_id.resolution_prefix"/> <t t-esc="o.resolution_id.resolution_to"/><br/>
                                                 <strong>Válido desde: </strong> <t t-esc="o.resolution_id.resolution_date_from"/> <strong> a </strong> <t t-esc="o.resolution_id.resolution_date_to"/><br/>
                                                 <strong>Representación gráfica de facturación electrónica impresa por computador con software propio por <t t-esc="o.company_id.business_name"/></strong><br/>
+                                                <strong>Régimen común</strong><br/>
+                                                <strong>No somos grandes contribuyentes</strong><br/>
+                                                <strong>CUENTA CORRIENTE BANCOLOMBIA 610-078729-48 / BANCO DE BOGOTA 379-03632-0</strong>
                                             </p>
                                             <t t-esc="o.narration"/><br/>
                                             <strong><t t-esc="o.resolution_id.resolution_type_document_id.type"/>: </strong> <t t-esc="o.ei_uuid"/>

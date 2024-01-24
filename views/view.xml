@@ -385,28 +385,28 @@
 
                         <t t-if="(not doc or (o and not 'partner_id' in o)) and not 'worked_days_line_ids' in o">
                             <h2 class="mt16">
-                                Certificate of Completion<br/>
+                                Certificado de finalización<br/>
                             </h2>
                             <h4>
                                 <strong t-field="o.reference"/>
                             </h4>
-                            <div class="text-muted small">Printed on <t t-esc="print_date"/> UTC</div>
-                            <h5 class="mt16">Document Details</h5>
+                            <div class="text-muted small">Impreso en <t t-esc="print_date"/> UTC</div>
+                            <h5 class="mt16">Detalles del documento</h5>
 
                             <div class="row">
                                 <div class="col-6">
-                                    <div><b>Created by:</b> <span t-field="o.create_uid.sudo().partner_id"/></div>
-                                    <div><b>Created on:</b> <span t-field="o.create_date"/> (UTC)</div>
-                                    <div><b>Creation IP Address:</b> <span t-esc="creation_log and creation_log[0].ip"/></div>
-                                    <div><b>Signers:</b> <span t-esc="len(o.sudo().request_item_ids)"/></div>
+                                    <div><b>Creado por:</b> <span t-field="o.create_uid.sudo().partner_id"/></div>
+                                    <div><b>Creado en:</b> <span t-field="o.create_date"/> (UTC)</div>
+                                    <div><b>Dirección IP de creación:</b> <span t-esc="creation_log and creation_log[0].ip"/></div>
+                                    <div><b>Firmantes:</b> <span t-esc="len(o.sudo().request_item_ids)"/></div>
                                 </div>
                                 <div class="col-6">
-                                    <div><b>Document ID:</b> <t t-esc="o.id"/></div>
-                                    <div><b>Signature:</b> <small t-esc="creation_log and creation_log[0].log_hash"/></div>
+                                    <div><b>Identificación del documento:</b> <t t-esc="o.id"/></div>
+                                    <div><b>Firma:</b> <small t-esc="creation_log and creation_log[0].log_hash"/></div>
                                 </div>
                             </div>
                             <br/>
-                            <h5>Participants</h5>
+                            <h5>Participantes</h5>
                             <table class="table table-sm o_main_table small mb-1">
                                 <t t-set="has_sms_validation" t-value="o.sudo().request_item_ids.filtered(lambda i: i.sms_token)"/>
                                 <thead>
@@ -414,10 +414,10 @@
                                         <th id="participants_signatory" class="text-start">Signatory</th>
                                         <th id="participants_email" class="text-start">Email</th>
                                         <th id="participants_email_verification" class="text-start">
-                                            Email Verification
+                                            Verificacion de email
                                         </th>
                                         <th id="participants_phone" class="text-start" t-if="has_sms_validation">
-                                            Phone
+                                            Teléfono
                                         </th>
                                     </tr>
                                     <tbody>
@@ -442,7 +442,7 @@
                                             </tr>
                                             <tr t-if="sri.frame_hash">
                                                 <td colspan="7" class="text-end text-muted small" style="border-end-style:hidden;border-start-style:hidden;">
-                                                    Signatory's hash : <pre style="display:inline" t-field="sri.frame_hash"/>
+                                                    Hash del firmante: <pre style="display:inline" t-field="sri.frame_hash"/>
                                                 </td>
                                             </tr>
                                         </t>
@@ -451,21 +451,21 @@
                             </table>
                             <section class="mb-4">
                                 <div class="text-muted email_verification_footnote">
-                                    <small>Email Verification: The signatory has confirmed control of their email inbox by clicking on a unique link</small>
+                                    <small>Verificación de correo electrónico: el firmante ha confirmado el control de su bandeja de entrada de correo electrónico haciendo clic en un enlace único.</small>
                                 </div>
                                 <div class="text-muted sms_footnote" t-if="has_sms_validation">
-                                    <small>SMS: The signatory has confirmed their control of the phone number using a unique code sent by SMS</small>
+                                    <small>SMS: El firmante ha confirmado su control del número de teléfono mediante un código único enviado por SMS</small>
                                 </div>
                             </section>
-                            <h5>Signing Events</h5>
+                            <h5>Eventos de firma</h5>
                             <table class="table table-sm o_main_table small mb-4">
                                 <t t-set="has_sms_validation" t-value="o.sudo().request_item_ids.filtered(lambda i: i.sms_token)"/>
                                 <thead>
                                     <tr>
-                                        <th class="text-start">Action</th>
-                                        <th class="text-start">By</th>
-                                        <th class="text-start">Date (UTC)</th>
-                                        <th class="text-start" groups="sign.group_sign_manager">Geolocation</th>
+                                        <th class="text-start">Acción</th>
+                                        <th class="text-start">Por</th>
+                                        <th class="text-start">Fecha (UTC)</th>
+                                        <th class="text-start" groups="sign.group_sign_manager">Geolocalización</th>
                                         <th class="text-start" groups="sign.group_sign_manager">IP</th>
                                     </tr>
                                 </thead>
@@ -488,41 +488,41 @@
                                                     <span t-field="log.longitude"/>
                                                     <div>
                                                         <a t-attf-href="https://www.google.com/maps/search/?api=1&amp;query={{log.latitude}},{{log.longitude}}">
-                                                            <i class="fa fa-globe"/> View
+                                                            <i class="fa fa-globe"/> Vista
                                                         </a>
                                                     </div>
                                                 </t>
                                                 <t t-else="">
-                                                    <span class="text-muted">Not available</span>
+                                                    <span class="text-muted">No disponible</span>
                                                 </t>
                                             </td>
                                             <td groups="sign.group_sign_manager"> <span t-field="log.ip"/> </td>
                                         </tr>
                                         <tr t-if="log.log_hash">
                                             <td colspan="7" class="text-end text-muted small" style="border-end-style:hidden;border-start-style:hidden;">
-                                                    Signature: <pre style="display:inline" t-field="log.log_hash"/>
+                                                    Firma: <pre style="display:inline" t-field="log.log_hash"/>
                                             </td>
                                         </tr>
                                     </t>
                                 </tbody>
                             </table>
                             <div t-if="o.integrity" class="small text-end text-success">
-                                <p><i class="fa fa-check"/> The document's integrity is valid.</p>
+                                <p><i class="fa fa-check"/> La integridad del documento es válida.</p>
                             </div>
                             <div t-else="" class="small text-end text-muted">
-                                <p><i class="fa fa-exclamation-circle"/> The document's integrity could not be verified.</p>
+                                <p><i class="fa fa-exclamation-circle"/> No se pudo verificar la integridad del documento.</p>
                             </div>
                             <div class="small" t-if="o.state == 'signed'">
-                                <p>The final document and this completion history have been sent by email on&amp;nbsp; <span t-field="o.completion_date"/> to: <t t-esc="', '.join(o.sudo()._get_final_recipients())"/>.</p>
+                                <p>El documento final y este historial de finalización se enviaron por correo electrónico el <span t-field="o.completion_date"/> a: <t t-esc="', '.join(o.sudo()._get_final_recipients())"/>.</p>
                             </div>
                             <h5>Access Logs</h5>
                             <table class="table table-sm o_main_table small mb-4">
                                 <thead>
                                     <tr>
-                                        <th class="text-start">Viewed/downloaded by</th>
-                                        <th class="text-start">Date (UTC)</th>
-                                        <th class="text-start">State</th>
-                                        <th class="text-start" groups="sign.group_sign_manager">Geolocation</th>
+                                        <th class="text-start">Visto/descargado por</th>
+                                        <th class="text-start">Fecha (UTC)</th>
+                                        <th class="text-start">Estado</th>
+                                        <th class="text-start" groups="sign.group_sign_manager">Geolocalización</th>
                                         <th class="text-start" groups="sign.group_sign_manager">ip</th>
                                     </tr>
                                 </thead>
@@ -536,11 +536,11 @@
                                                 <span t-field="log.latitude"/>,
                                                 <span t-field="log.longitude"/>
                                                 <a t-attf-href="https://www.google.com/maps/search/?api=1&amp;query={{log.latitude}},{{log.longitude}}">
-                                                    <i class="fa fa-globe"/> View
+                                                    <i class="fa fa-globe"/> Vista
                                                 </a>
                                             </t>
                                             <t t-else="">
-                                                <span class="text-muted">Not available</span>
+                                                <span class="text-muted">No disponible</span>
                                             </t>
                                         </td>
                                         <td groups="sign.group_sign_manager"> <span t-field="log.ip"/> </td>

@@ -336,20 +336,22 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <t t-if="'worked_days_line_ids' in o and o.worked_days_line_ids">
+                                        <t t-if="o and 'worked_days_line_ids' in o and o.worked_days_line_ids">
                                             <t t-foreach="o.worked_days_line_ids" t-as="worked_days">
-                                                <tr>
-                                                    <td>
-                                                        <t t-esc="worked_days.name"/>
-                                                    </td>
-                                                    <td>
-                                                        <t t-esc="worked_days.number_of_days"/>
-                                                    </td>
-                                                    <td>
-                                                        <t t-esc="o.currency_id.symbol" />
-                                                        <t t-esc="'{:,.2f}'.format(float(worked_days.amount)).replace(',', ' ').replace('.', ',').replace(' ', '.')"/>
-                                                    </td>
-                                                </tr>
+                                                <t t-if="worked_days">
+                                                    <tr>
+                                                        <td>
+                                                            <t t-esc="worked_days.name"/>
+                                                        </td>
+                                                        <td>
+                                                            <t t-esc="worked_days.number_of_days"/>
+                                                        </td>
+                                                        <td>
+                                                            <t t-esc="o.currency_id.symbol" />
+                                                            <t t-esc="'{:,.2f}'.format(float(worked_days.amount)).replace(',', ' ').replace('.', ',').replace(' ', '.')"/>
+                                                        </td>
+                                                    </tr>
+                                                </t>
                                             </t>
                                         </t>
                                         <t t-foreach="o.line_ids.filtered(lambda line: line.appears_on_payslip)" t-as="table_line">

@@ -382,6 +382,10 @@
                                 </table>
                             </div>
                         </t>
+
+                        <t t-if="(not doc or (o and not 'partner_id' in o)) and not 'worked_days_line_ids' in o">
+                            <t t-call="account.document_tax_totals"/>
+                        </t>
                     </div>
                 </div>
             </xpath> 

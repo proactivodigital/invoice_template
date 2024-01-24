@@ -392,9 +392,12 @@
                             <h2 class="mt16">
                                 Certificado de finalización<br/>
                             </h2>
-                            <h4>
-                                <strong t-field="o.reference"/>
-                            </h4>
+                            <t t-if="'reference' in o">
+                                <h4>
+                                    
+                                    <strong t-field="o.reference"/>
+                                </h4>
+                            </t>
                             <div class="text-muted small">Impreso en <t t-esc="print_date"/> UTC</div>
                             <h5 class="mt16">Detalles del documento</h5>
 

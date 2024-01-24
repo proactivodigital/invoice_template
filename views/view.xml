@@ -388,16 +388,14 @@
                             </div>
                         </t>
 
-                        <t t-if="(not doc or (o and not 'partner_id' in o)) and not 'worked_days_line_ids' in o">
+                        <t t-if="o and not doc and not 'partner_id' in o and not 'worked_days_line_ids' in o and 'reference' in o">
                             <h2 class="mt16">
                                 Certificado de finalización<br/>
                             </h2>
-                            <t t-if="'reference' in o">
-                                <h4>
-                                    
-                                    <strong t-field="o.reference"/>
-                                </h4>
-                            </t>
+                            <h4>
+                                
+                                <strong t-field="o.reference"/>
+                            </h4>
                             <div class="text-muted small">Impreso en <t t-esc="print_date"/> UTC</div>
                             <h5 class="mt16">Detalles del documento</h5>
 

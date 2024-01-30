@@ -331,7 +331,6 @@
                                     <thead>
                                         <tr>
                                             <th scope="col">Nombre</th>
-                                            <th scope="col">Dias</th>
                                             <th scope="col">Total</th>
                                         </tr>
                                     </thead>
@@ -341,9 +340,6 @@
                                                 <tr>
                                                     <td>
                                                         <t t-esc="worked_days.name"/>
-                                                    </td>
-                                                    <td>
-                                                        <t t-esc="worked_days.number_of_days"/>
                                                     </td>
                                                     <td>
                                                         <t t-esc="o.currency_id.symbol" />
@@ -363,8 +359,6 @@
                                                         <t t-esc="table_line.display_name"/>
                                                     </td>
                                                     <td>
-                                                    </td>
-                                                    <td>
                                                         <t t-esc="o.currency_id.symbol" />
                                                         <t t-esc="'{:,.2f}'.format(float(table_line.total)).replace(',', ' ').replace('.', ',').replace(' ', '.')"/>
                                                     </td>
@@ -377,8 +371,6 @@
                                                     <t t-esc="table_line.name"/>
                                                 </td>
                                                 <td>
-                                                </td>
-                                                <td>
                                                     <t t-esc="o.currency_id.symbol" />
                                                     <t t-esc="'{:,.2f}'.format(float(table_line.amount)).replace(',', ' ').replace('.', ',').replace(' ', '.')"/>
                                                 </td>
@@ -386,11 +378,12 @@
                                         </t>
                                         <t t-if="o.total_amount">
                                             <tr>
-                                                <td></td>
-                                                <td></td>
+                                                <td><b>Total a pagar</b></td>
                                                 <td>
-                                                    <t t-esc="o.currency_id.symbol" />
-                                                    <t t-esc="'{:,.2f}'.format(float(o.total_amount)).replace(',', ' ').replace('.', ',').replace(' ', '.')"/>
+                                                    <b>
+                                                        <t t-esc="o.currency_id.symbol" />
+                                                        <t t-esc="'{:,.2f}'.format(float(o.total_amount)).replace(',', ' ').replace('.', ',').replace(' ', '.')"/>
+                                                    </b>
                                                 </td>
                                             </tr>
                                         </t>

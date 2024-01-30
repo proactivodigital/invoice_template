@@ -356,7 +356,8 @@
                                             <t t-if="'provisión' not in table_line.display_name.lower() and 
                                                     'aporte arl' not in table_line.display_name.lower() and 
                                                     'aporte ccf' not in table_line.display_name.lower() and 
-                                                    'empleador' not in table_line.display_name.lower()">
+                                                    'empleador' not in table_line.display_name.lower() and
+                                                    'neto' not in table_line.display_name.lower()">
                                                 <tr>
                                                     <td>
                                                         <t t-esc="table_line.display_name"/>
@@ -380,6 +381,16 @@
                                                 <td>
                                                     <t t-esc="o.currency_id.symbol" />
                                                     <t t-esc="'{:,.2f}'.format(float(table_line.amount)).replace(',', ' ').replace('.', ',').replace(' ', '.')"/>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                        <t t-if="o.total_amount">
+                                            <tr>
+                                                <td></td>
+                                                <td></td>
+                                                <td>
+                                                    <t t-esc="o.currency_id.symbol" />
+                                                    <t t-esc="'{:,.2f}'.format(float(o.total_amount)).replace(',', ' ').replace('.', ',').replace(' ', '.')"/>
                                                 </td>
                                             </tr>
                                         </t>

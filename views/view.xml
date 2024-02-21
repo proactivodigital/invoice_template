@@ -26,9 +26,6 @@
                                     <strong>Tipo de regimén: </strong> <t t-esc="o.company_id.type_regime_id.name"/><br/>
                                     <strong>Tipo de responsabilidad: </strong> <t t-esc="o.company_id.type_liability_id.name"/><br/>
                                     <strong>Tipo de operación: </strong> <t t-esc="o.ei_operation"/><br/>
-                                    <t t-if="o and 'trm_date' in o and o.trm_value > 0">
-                                        <strong>Fecha de TRM: </strong> <t t-esc="o.trm_date" t-options='{"widget": "date", "date_format": "Y-m-d"}'/><br/>
-                                    </t>
                                     <t t-if="o and 'trm_value' in o and o.trm_value > 0">
                                         <strong>Valor de TRM: </strong> <t t-esc="o.currency_id.symbol" /> <t t-esc="'{:,.2f}'.format(float(o.trm_value)).replace(',', ' ').replace('.', ',').replace(' ', '.')"/><br/>
                                         
@@ -153,30 +150,43 @@
                                         <t t-if="o and 'invoice_line_ids' in o">
                                             <t t-set="line_number" t-value="1"/>
                                             <t t-foreach="o.invoice_line_ids" t-as="line">
-                                                <tr>
-                                                    <th><t t-esc="line_number"/></th>
-                                                    <td><t t-esc="line.name"/></td>
-                                                    <td>
-                                                        <span t-field="line.ei_notes"/>
-                                                    </td>
-                                                    <td>
-                                                        <t t-esc="line.quantity"/>
-                                                    </td>
-                                                    <td>
-                                                        <t t-esc="o.currency_id.symbol" />
-                                                        <t t-esc="'{:,.2f}'.format(float(line.price_unit)).replace(',', ' ').replace('.', ',').replace(' ', '.')"/>
-                                                    </td>
-                                                    <td>
-                                                        <t t-foreach="line.tax_ids" t-as="tax">
-                                                            <p><t t-esc="tax.amount"/></p>
-                                                        </t>
-                                                    </td>
-                                                    <td>
-                                                        <t t-esc="o.currency_id.symbol" />
-                                                        <t t-esc="'{:,.2f}'.format(float(line.quantity * line.price_unit)).replace(',', ' ').replace('.', ',').replace(' ', '.')"/>
-                                                    </td>
-                                                </tr>
-                                                <t t-set="line_number" t-value="line_number + 1"/>
+                                                <t t-if="line.quantity > 0">
+                                                    <tr>
+                                                        <th><t t-esc="line_number"/></th>
+                                                        <td><t t-esc="line.name"/></td>
+                                                        <td>
+                                                            <span t-field="line.ei_notes"/>
+                                                        </td>
+                                                        <td>
+                                                            <t t-esc="line.quantity"/>
+                                                        </td>
+                                                        <td>
+                                                            <t t-esc="o.currency_id.symbol" />
+                                                            <t t-esc="'{:,.2f}'.format(float(line.price_unit)).replace(',', ' ').replace('.', ',').replace(' ', '.')"/>
+                                                        </td>
+                                                        <td>
+                                                            <t t-foreach="line.tax_ids" t-as="tax">
+                                                                <p><t t-esc="tax.amount"/></p>
+                                                            </t>
+                                                        </td>
+                                                        <td>
+                                                            <t t-esc="o.currency_id.symbol" />
+                                                            <t t-esc="'{:,.2f}'.format(float(line.quantity * line.price_unit)).replace(',', ' ').replace('.', ',').replace(' ', '.')"/>
+                                                        </td>
+                                                    </tr>
+                                                    <t t-set="line_number" t-value="line_number + 1"/>
+                                                </t>
+                                                <t t-if="line.quantity == 0">
+                                                    <tr>
+                                                        <th></th>
+                                                        <td><span style="font-style: italic; background: #d1d1d1d9"><b><t t-esc="line.name"/></b></span></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                    </tr>
+                                                </t>
                                             </t>
                                         </t>
                                         <t t-if="doc">

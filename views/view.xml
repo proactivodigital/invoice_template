@@ -40,6 +40,28 @@
                                 <p style="font-size: 10px">
                                     Cotizacion # <strong style="font-size: 20px"> <t t-esc="doc.name"/> </strong>
                                 </p>
+                                <t t-if="'is_subscription' in doc and doc.is_subscription and 'recurrence_id' in doc">
+                                    <div style="margin-left:8px; text-align:center">
+                                        <strong>Recurrencia::</strong>
+                                        <p><t t-esc="doc.recurrence_id.name"/></p>
+                                    </div>
+                                </t>
+                                <div style="margin-left:8px; text-align:center">
+                                    <strong>Fecha de Cotización:</strong>
+                                    <p><t t-esc="doc.date_order" t-options='{"widget": "date", "date_format": "Y-m-d"}'/></p>
+                                </div>
+                                <div style="margin-left:8px; text-align:center">
+                                    <strong>Vencimiento:</strong>
+                                    <p><t t-esc="doc.validity_date" t-options='{"widget": "date", "date_format": "Y-m-d"}'/></p>
+                                </div>
+                                <div style="margin-left:8px; text-align:center">
+                                    <strong>Vendedor:</strong>
+                                    <p><t t-esc="doc.user_id.name"/></p>
+                                </div>
+                                <div style="margin-left:8px; text-align:center">
+                                    <strong>Plazo de pago:</strong>
+                                    <p><t t-esc="doc.payment_term_id.name"/></p>
+                                </div>
                             </t>
                             <t t-if="o and not doc and not 'ei_operation' in o and 'name' in o and o.name">
                                 <t t-esc="o.name"/>
@@ -96,26 +118,6 @@
                                     <div>
                                         <strong>Forma de pago:</strong>
                                         <p><t t-esc="o.payment_form_id.name"/></p>
-                                    </div>
-                                </t>
-                                <t t-if="doc">
-                                    <t t-if="'is_subscription' in doc and doc.is_subscription and 'recurrence_id' in doc">
-                                        <div style="margin-left:8px; text-align:center">
-                                            <strong>Recurrencia::</strong>
-                                            <p><t t-esc="doc.recurrence_id.name"/></p>
-                                        </div>
-                                    </t>
-                                    <div style="margin-left:8px; text-align:center">
-                                        <strong>Fecha de Cotización:</strong>
-                                        <p><t t-esc="doc.date_order" t-options='{"widget": "date", "date_format": "Y-m-d"}'/></p>
-                                    </div>
-                                    <div style="margin-left:8px; text-align:center">
-                                        <strong>Vencimiento:</strong>
-                                        <p><t t-esc="doc.validity_date" t-options='{"widget": "date", "date_format": "Y-m-d"}'/></p>
-                                    </div>
-                                    <div style="margin-left:8px; text-align:center">
-                                        <strong>Vendedor:</strong>
-                                        <p><t t-esc="doc.user_id.name"/></p>
                                     </div>
                                 </t>
                             </div>

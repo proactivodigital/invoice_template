@@ -47,19 +47,19 @@
                                     </p>
                                 </t>
                                 <p style="font-size: 10px">
-                                    <strong style="font-size: 20px">Fecha de Cotización:</strong> 
+                                    <strong>Fecha de Cotización:</strong> 
                                     <t t-esc="doc.date_order" t-options='{"widget": "date", "date_format": "Y-m-d"}'/>
                                 </p>
                                 <p style="font-size: 10px">
-                                    <strong style="font-size: 20px">Vencimiento:</strong> 
+                                    <strong>Vencimiento:</strong> 
                                     <t t-esc="doc.validity_date" t-options='{"widget": "date", "date_format": "Y-m-d"}'/>
                                 </p>
                                 <p style="font-size: 10px">
-                                    <strong style="font-size: 20px">Vendedor:</strong> 
+                                    <strong>Vendedor:</strong> 
                                     <t t-esc="doc.user_id.name"/>
                                 </p>
                                 <p style="font-size: 10px">
-                                    <strong style="font-size: 20px">Plazo de pago:</strong>
+                                    <strong>Plazo de pago:</strong>
                                     <t t-esc="doc.payment_term_id.name"/>
                                 </p>
                             </t>

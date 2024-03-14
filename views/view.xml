@@ -60,10 +60,10 @@
                                 </p>
                                 <p style="font-size: 10px">
                                     <strong>Plazo de pago:</strong>
-                                    <t t-if="doc.payment_term_id.name.lower() != 'pago inmediato">
+                                    <t t-if="doc.payment_term_id.name.lower() != 'pago inmediato'">
                                         <t t-esc="doc.payment_term_id.name"/>
                                     </t>
-                                    <t t-if="doc.payment_term_id.name.lower() == 'pago inmediato">
+                                    <t t-if="doc.payment_term_id.name.lower() == 'pago inmediato'">
                                         Anticipado
                                     </t>
                                 </p>

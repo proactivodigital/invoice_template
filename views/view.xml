@@ -58,15 +58,17 @@
                                     <strong>Vendedor:</strong> 
                                     <t t-esc="doc.user_id.name"/>
                                 </p>
-                                <p style="font-size: 10px">
-                                    <strong>Plazo de pago:</strong>
-                                    <t t-if="doc.payment_term_id.name.lower() != 'pago inmediato'">
-                                        <t t-esc="doc.payment_term_id.name"/>
-                                    </t>
-                                    <t t-if="doc.payment_term_id.name.lower() == 'pago inmediato'">
-                                        Anticipado
-                                    </t>
-                                </p>
+                                <t t-if="doc.payment_term_id">
+                                    <p style="font-size: 10px">
+                                        <strong>Plazo de pago:</strong>
+                                        <t t-if="doc.payment_term_id.name.lower() != 'pago inmediato'">
+                                            <t t-esc="doc.payment_term_id.name"/>
+                                        </t>
+                                        <t t-if="doc.payment_term_id.name.lower() == 'pago inmediato'">
+                                            Anticipado
+                                        </t>
+                                    </p>
+                                </t>
                             </t>
                             <t t-if="o and not doc and not 'ei_operation' in o and 'name' in o and o.name">
                                 <t t-esc="o.name"/>

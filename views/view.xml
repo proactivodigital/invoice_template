@@ -2,7 +2,7 @@
 <odoo>
     <data>
         <template id="external_layout_striped_custom" inherit_id="web.external_layout_striped">
-            <xpath expr="//div[contains(@class,'header')]" position="replace">
+            <xpath expr="//div[contains(@class,'header')]" position="before">
                 <div class="d-flex justify-content-between align-items-center w-100" style="height: 170px; font-size: 12px;">
                     <div class="d-flex justify-content-center align-items-center">
                         <div class="logo-infopro" style="width: 140px; height: 50px; margin-right: 15px;">
@@ -49,7 +49,7 @@
                 </div>
             </xpath>
 
-            <xpath expr="//div[contains(@t-attf-class, 'article')]" position="replace">
+            <xpath expr="//div[contains(@t-attf-class, 'article')]" position="before">
                 <div t-attf-class="o_company_#{company.id}_layout article o_report_layout_striped {{  'o_report_layout_background' if company.layout_background in ['Geometric', 'Custom']  else  '' }}" t-attf-style="background-image: url({{ 'data:image/png;base64,%s' % company.layout_background_image.decode('utf-8') if company.layout_background_image and company.layout_background == 'Custom' else '/base/static/img/bg_background_template.jpg' if company.layout_background == 'Geometric' else ''}});" t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
                     <div style="font-size: 12px; margin-top: 10px">
                         <div class="d-flex justify-content-between align-items-start w-100" style="display: flex; margin-top: 10px">
@@ -572,7 +572,7 @@
                 </div>
             </xpath> 
 
-            <xpath expr="//div[contains(@t-attf-class, 'footer')]" position="replace">
+            <xpath expr="//div[contains(@t-attf-class, 'footer')]" position="before">
                 <div t-attf-class="o_company_#{company.id}_layout footer o_background_footer">
                     <div class="text-center">
                         <div t-if="report_type == 'pdf'" class="text-muted">

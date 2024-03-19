@@ -166,7 +166,9 @@
                                                         </td>
                                                         <td>
                                                             <t t-foreach="line.tax_ids" t-as="tax">
-                                                                <p><t t-esc="tax.amount"/></p>
+                                                                <t t-if="tax.amount == 19.0">
+                                                                    <p><t t-esc="tax.amount"/></p>
+                                                                </t>
                                                             </t>
                                                         </td>
                                                         <td>
@@ -269,13 +271,6 @@
                                                         <td>Moneda</td>
                                                         <td><t t-esc="o.currency_id.name"/></td>
                                                     </tr>
-                                                    <tr>
-                                                        <td>Total sin retenciones</td>
-                                                        <td>
-                                                            <t t-esc="o.currency_id.symbol" />
-                                                            <t t-esc="'{:,.2f}'.format(int(o.ei_amount_total_no_withholding)).replace(',', ' ').replace('.', ',').replace(' ', '.')"/>
-                                                        </td>
-                                                    </tr>
                                                     <t t-if="tax_totals and 'subtotals' in tax_totals">
                                                         <t t-foreach="tax_totals['subtotals']" t-as="subtotal">
                                                             <tr>
@@ -289,6 +284,13 @@
                                                         <td>
                                                             <t t-esc="o.currency_id.symbol" />
                                                             <t t-esc="'{:,.2f}'.format(int(o.ei_amount_tax_no_withholding)).replace(',', ' ').replace('.', ',').replace(' ', '.')"/>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Retenciones</td>
+                                                        <td>
+                                                            <t t-esc="o.currency_id.symbol" />
+                                                            <t t-esc="'{:,.2f}'.format(int(o.ei_amount_tax_withholding)).replace(',', ' ').replace('.', ',').replace(' ', '.')"/>
                                                         </td>
                                                     </tr>
                                                     <tr>

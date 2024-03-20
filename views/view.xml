@@ -589,6 +589,80 @@
                                 </tbody>
                             </table>
                         </t>
+
+                        <t t-if="report_name and partner">
+                            <div class="d-flex justify-content-between align-items-center w-100">
+                                <table class="table" t-if="report_name.endswith('iva')">
+                                    <thead>
+                                        <tr>
+                                            <th><strong>Bimestre</strong></th>
+                                            <th><strong>Monto Total Operación</strong></th>
+                                            <th><strong>Monto del Pago Sujeto Retención</strong></th>
+                                            <th><strong>Retenido Consignado</strong></th>
+                                            <th><strong>%</strong></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr t-foreach="partner['lines']" t-as="line">
+                                            <td><t t-esc="line.get('bimestre')"/></td>
+                                            <td><t t-esc="line.get('tax_base_amount')"/></td>
+                                            <td><t t-esc="line.get('balance_15_over_19')"/></td>
+                                            <td><t t-esc="line.get('balance')"/></td>
+                                            <td><t t-esc="line.get('percentage')"/></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="d-flex justify-content-between align-items-center w-100">
+                                <div class="d-flex justify-content-between align-items-center w-100">
+                                    <div class="w-50">
+                                        <div class="col-12" t-if="report_name.endswith('fuente')">
+                                            Señor contribuyente: Favor tener en cuenta que la base certificada por nosotros corresponde a la sometida a retención durante el periodo gravable según las normas vigentes sobre la materia y podría ser diferente a lo facturado por usted durante el mismo periodo. al declarar tenerlo presente.
+                                        </div>
+                                        <div class="col-12">
+                                            El presente certificado se expide on concordancia con las disposiciones legales contenidas en al artículo 381 del Estatuto Tributario.
+                                        </div>
+                                        <div class="col-12">
+                                            Dicha Retención fue consignada oportunamente a nombre de la Dirección de Impuestos y Aduanas Nacionales en la Ciudad de
+                                            <t t-esc="env.company.city"/>
+                                        </div>
+                                        <div class="col-12">
+                                            NO REQUIRE FIRMA AUTOGRAFA. <t t-esc="options['article']"/>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex justify-content-end align-items-center w-50 fw-bold">
+                                        <div t-att-class="report_name.endswith('iva') and 'offset-1 col-11' or 'offset-5 col-7'" style="border: 2px solid black;">
+                                            <div class="col-12 text-center">
+                                                <strong>TOTAL DE IMPUESTOS DESCONTABLES</strong>
+                                            </div>
+                                            <div t-if="report_name.endswith('iva')" class="col-4">
+                                                <div>
+                                                    <strong>MONTO TOTAL OPERACIONAL:</strong> <t t-esc="partner.get('tax_base_amount', 0.0)"/>
+                                                </div>
+                                            </div>
+                                            <div t-att-class="not report_name.endswith('iva') and 'col-6' or 'col-4'">
+                                                <div>
+                                                    <strong>MONTO DEL PAGO SUJETO A:</strong>
+                                                    <t t-if="report_name.endswith('iva')">
+                                                        <t t-esc="partner.get('balance_15_over_19', 0.0)"/>
+                                                    </t>
+                                                    <t t-if="not report_name.endswith('iva')">
+                                                        <t t-esc="partner.get('tax_base_amount', 0.0)"/>
+                                                    </t>
+                                                </div>
+                                            </div>
+                                            <div t-att-class="not report_name.endswith('iva') and 'col-6' or 'col-4'">
+                                                <div>
+                                                    <strong>RETENIDO Y CONSIGNADO:</strong>
+                                                    <t t-esc="partner.get('balance', 0.0)"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
                     </div>
                 </div>
             </xpath> 

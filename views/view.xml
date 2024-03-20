@@ -44,6 +44,11 @@
                             <t t-if="o and not doc and not 'ei_operation' in o and 'name' in o and o.name">
                                 <t t-esc="o.name"/>
                             </t>
+                            <t t-if="report_name">
+                                <span style="font-size: 10px" t-if="report_name.endswith('fuente')">CERTIFICADO DE RETENCIÓN POR TERCEROS</span>
+                                <span style="font-size: 10px" t-if="report_name.endswith('ica')">CERTIFICADO DE RETENCIÓN EN ICA</span>
+                                <span style="font-size: 10px" t-if="report_name.endswith('iva')">CERTIFICADO DE RETENCIÓN DE IVA</span>
+                            </t>
                         </div>
                     </div>
                 </div>

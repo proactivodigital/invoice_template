@@ -78,6 +78,25 @@
                                         <t t-esc="o.employee_id.address_home_id.name"/>
                                     </p>
                                 </t>
+                                <t t-if="partner and 'partner_id' in partner and options">
+                                    <p>
+                                        NIT: <t t-esc="partner['partner_id'].vat"/><br />
+                                        Fecha de Expedición: <t t-esc="options['expedition_date']"/><br />
+                                        Nombre/Razón Social: <t t-esc="partner['partner_id'].display_name"/><br />
+                                        Fecha de Declaración: <t t-esc="options['declaration_date']"/><br />
+                                        Ciudad Tercero: <t t-esc="partner['partner_id'].city"/><br />
+                                        Dirección: <t t-esc="partner['partner_id'].street"/>
+                                    </p>
+                                    <p>
+                                        Durante el año gravable de <t t-esc="current_year"/>, practicó en la ciudad de
+                                        <t t-esc="env.company.city"/>
+                                        <span t-if="report_name.endswith('fuente')"> retención en la fuente a</span>
+                                        <span t-if="report_name.endswith('ica')"> retención de ICA a</span>
+                                        <span t-if="report_name.endswith('iva')"> retención de IVA a</span>
+                                        <t t-esc="partner['partner_id'].display_name"/> con NIT:
+                                        <t t-esc="partner['partner_id'].vat"/>.
+                                    </p>
+                                </t>
                             </div>
                             <div class="d-flex justify-content-between align-items-center w-75">
                                 <t t-if="o and 'ei_issue_datetime' in o and 'ei_expedition_date' in o and 'invoice_date_due' in o and 'payment_form_id' in o">
@@ -570,8 +589,6 @@
                                 </tbody>
                             </table>
                         </t>
-
-                        <t t-call="l10n_co_reports.report_certification"/>
                     </div>
                 </div>
             </xpath> 

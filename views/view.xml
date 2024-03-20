@@ -570,6 +570,8 @@
                                 </tbody>
                             </table>
                         </t>
+
+                        <t t-call="l10n_co_reports.report_certification"/>
                     </div>
                 </div>
             </xpath> 

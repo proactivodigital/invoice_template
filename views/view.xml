@@ -111,7 +111,7 @@
                                     </div>
                                     <div>
                                         <strong>Fecha de expedición:</strong>
-                                        <p><t t-esc="o.ei_expedition_date" t-options='{"widget": "date"}'/></p>
+                                        <p><t t-esc="o.invoice_date" t-options='{"widget": "date"}'/></p>
                                     </div>
                                     <div>
                                         <strong>Fecha de vencimiento:</strong>

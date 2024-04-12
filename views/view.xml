@@ -107,7 +107,7 @@
                                 <t t-if="o and 'ei_issue_datetime' in o and 'ei_expedition_date' in o and 'invoice_date_due' in o and 'payment_form_id' in o">
                                     <div>
                                         <strong>Fecha de emisión:</strong>
-                                        <p><t t-esc="o.invoice_time" t-options='{"widget": "date"}'/></p>
+                                        <p><t t-esc="o.invoice_date" t-options='{"widget": "date"}'/></p>
                                     </div>
                                     <div>
                                         <strong>Fecha de expedición:</strong>

@@ -107,7 +107,7 @@
                                 <t t-if="o and 'ei_issue_datetime' in o and 'ei_expedition_date' in o and 'invoice_date_due' in o and 'payment_form_id' in o">
                                     <div>
                                         <strong>Fecha de emisión:</strong>
-                                        <p><t t-esc="o.ei_issue_datetime" t-options='{"widget": "date", "date_format": "Y-m-d"}'/></p>
+                                        <p><t t-esc="o.invoice_time" t-options='{"widget": "date"}'/></p>
                                     </div>
                                     <div>
                                         <strong>Fecha de expedición:</strong>
@@ -352,6 +352,10 @@
                                         <div class="d-flex justify-content-end align-items-center w-50 fw-bold">
                                             <table class="table table-sm table-borderless">
                                                 <!-- Tax totals -->
+                                                <tr>
+                                                    <td>Moneda</td>
+                                                    <td><t t-esc="o.currency_id.name"/></td>
+                                                </tr>
                                                 <t t-set="tax_totals" t-value="doc.tax_totals"/>
                                                 <t t-call="account.document_tax_totals"/>
                                             </table>

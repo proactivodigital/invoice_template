@@ -290,8 +290,6 @@
                                                 <strong>No somos grandes contribuyentes</strong><br/>
                                                 <strong>CUENTA CORRIENTE BANCOLOMBIA 610-078729-48 / BANCO DE BOGOTA 379-03632-0</strong>
                                             </p>
-                                            <t t-esc="o.narration"/><br/>
-                                            <strong><t t-esc="o.resolution_id.resolution_type_document_id.type"/>: </strong> <t t-esc="o.ei_uuid"/>
                                         </div>
                                         <div class="d-flex justify-content-end align-items-center w-50 fw-bold">
                                             <table class="table">
@@ -349,6 +347,8 @@
                                                 </tbody>
                                             </table>
                                         </div>
+                                        <t t-esc="o.narration"/>
+
                                     </t>
                                     <t t-if="doc">
                                         <div class="w-50">
@@ -365,6 +365,21 @@
                                                 <t t-call="account.document_tax_totals"/>
                                             </table>
                                         </div>
+                                    </t>
+                                </div>
+                            </div> 
+
+                            <div class="d-flex justify-content-between align-items-center w-100">
+                                <div class="d-flex justify-content-between align-items-center w-100">
+                                    <t t-if="o and 'resolution_id' in o and 'resolution_resolution' in o.resolution_id and 'resolution_resolution_date' in o.resolution_id">
+                                        <p>
+                                            <strong>
+                                                <t t-esc="o.resolution_id.resolution_type_document_id.type"/>: 
+                                            </strong> 
+                                            <span>
+                                                <t t-esc="o.ei_uuid"/>
+                                            </span> 
+                                        </p> 
                                     </t>
                                 </div>
                             </div> 

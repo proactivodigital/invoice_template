@@ -149,9 +149,11 @@
                                     <t t-if="o and 'invoice_line_ids' in o">
                                         <div>
                                             <strong>Referencia:</strong>
-                                            <t t-foreach="o.invoice_line_ids" t-as="line">
-                                                <t t-esc="line.display_name"/>
-                                            </t>
+                                            <p>
+                                                <t t-foreach="o.invoice_line_ids" t-as="line">
+                                                    <t t-esc="line.display_name"/>
+                                                </t>
+                                            </p>
                                         </div>
                                     </t>
                                 </t>

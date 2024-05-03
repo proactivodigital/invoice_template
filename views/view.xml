@@ -146,6 +146,14 @@
                                         <strong>Forma de pago:</strong>
                                         <p><t t-esc="o.payment_form_id.name"/></p>
                                     </div>
+                                    <t t-if="o and 'invoice_line_ids' in o">
+                                        <div>
+                                            <strong>Referencia:</strong>
+                                            <t t-foreach="o.invoice_line_ids" t-as="line">
+                                                <t t-esc="line.display_name"/>
+                                            </t>
+                                        </div>
+                                    </t>
                                 </t>
                             </div>
                         </div>

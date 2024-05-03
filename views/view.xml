@@ -151,7 +151,7 @@
                                             <strong>Referencia:</strong>
                                             <p>
                                                 <t t-foreach="o.invoice_line_ids" t-as="line">
-                                                    <t t-esc="line.display_name"/>
+                                                    <t t-esc="line.display_name"/><br />
                                                 </t>
                                             </p>
                                         </div>

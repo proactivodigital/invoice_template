@@ -150,11 +150,15 @@
                                         <div>
                                             <strong>Referencia:</strong>
                                             <p>
+                                                <t t-set="shown_values" t-value="[]"/>
                                                 <t t-foreach="o.invoice_line_ids" t-as="line">
                                                     <t t-set="name_parts" t-value="line.display_name.split(': ')"/>
                                                     <t t-set="modified_name" t-value="name_parts[1].split(',')"/>
                                                     <t t-set="first_part" t-value="modified_name[0]"/>
                                                     <t t-esc="first_part"/><br />
+                                                    <t t-if="not first_part in shown_values">
+                                                        <t t-set="shown_values" t-value="shown_values.append(first_part)" />
+                                                    </t>
                                                 </t>
                                             </p>
                                         </div>

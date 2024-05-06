@@ -147,6 +147,7 @@
                                         <p><t t-esc="o.payment_form_id.name"/></p>
                                     </div>
                                     <t t-if="o and 'invoice_line_ids' in o">
+                                        <t t-set="first_parts" t-value="[]" />
                                         <div>
                                             <strong>Referencia:</strong>
                                             <p>
@@ -154,7 +155,10 @@
                                                     <t t-set="name_parts" t-value="line.display_name.split(': ')"/>
                                                     <t t-set="modified_name" t-value="name_parts[1].split(',')"/>
                                                     <t t-set="first_part" t-value="modified_name[0]"/>
-                                                    <t t-esc="first_part"/><br />
+                                                    <t t-if="first_part not in first_parts">
+                                                        <t t-set="first_parts" t-value="first_parts + [first_part]" />
+                                                        <t t-esc="first_part"/><br />
+                                                    </t>
                                                 </t>
                                             </p>
                                         </div>

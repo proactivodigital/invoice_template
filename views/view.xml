@@ -151,7 +151,7 @@
                                         <div>
                                             <strong>Referencia:</strong>
                                             <p>
-                                                <t-esc="line.move_type" />
+                                                <t t-esc="str(line.move_type)" />
                                             </p>
                                         </div>
                                     </t>

@@ -170,7 +170,7 @@
                                                                 <t t-set="has_comma" t-value="'}' in line.display_name"/>
                                                                 <t t-if="has_colon and has_comma">
                                                                     <t t-set="name_parts" t-value="line.display_name.split('[')"/>
-                                                                    <t t-esc="name_parts[0]"/><br />
+                                                                    <t t-esc="name_parts[1]"/><br />
                                                                 </t>
                                                             </t>
                                                         </t>
@@ -180,7 +180,7 @@
                                                         <t t-set="has_comma" t-value="'}' in line.display_name"/>
                                                         <t t-if="has_colon and has_comma">
                                                             <t t-set="name_parts" t-value="line.display_name.split('[')"/>
-                                                            <t t-esc="name_parts[0]"/><br />
+                                                            <t t-esc="name_parts[1]"/><br />
                                                         </t>
                                                     </t>
                                                 </t>

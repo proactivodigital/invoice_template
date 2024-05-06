@@ -146,7 +146,7 @@
                                         <strong>Forma de pago:</strong>
                                         <p><t t-esc="o.payment_form_id.name"/></p>
                                     </div>
-                                    <t t-if="o and 'invoice_line_ids' in o and str(line.move_type) === 'out_refund'">
+                                    <t t-if="o and 'invoice_line_ids' in o and str(line.move_type) == 'out_refund'">
                                         <t t-set="first_parts" t-value="[]" />
                                         <div>
                                             <strong>Referencia:</strong>

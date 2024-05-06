@@ -153,7 +153,11 @@
                                                 <t t-foreach="o.invoice_line_ids" t-as="line">
                                                     <t t-set="name_parts" t-value="line.display_name.split(': ')"/>
                                                     <t t-set="modified_name" t-value="name_parts[1].split(',')"/>
-                                                    <t t-esc="modified_name[0]"/><br />
+                                                    <t t-set="reference" t-value="modified_name[0]"/>
+                                                    <t t-if="not reference in shown_values">
+                                                        <t t-esc="reference"/><br />
+                                                        <t t-set="shown_values" t-value="shown_values.append(reference)" />
+                                                    </t>
                                                 </t>
                                             </p>
                                         </div>

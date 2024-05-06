@@ -169,7 +169,8 @@
                                                                 <t t-set="has_simbol" t-value="'[' in line.display_name"/>
                                                                 <t t-if="has_simbol">
                                                                     <t t-set="name_parts" t-value="line.display_name.split('[')"/>
-                                                                    <t t-esc="name_parts[1]"/><br />
+                                                                    <t t-set="name_parts" t-value="name_parts[1].split(']')"/>
+                                                                    <t t-esc="name_parts[0]"/><br />
                                                                 </t>
                                                             </t>
                                                         </t>
@@ -178,7 +179,8 @@
                                                         <t t-set="has_simbol" t-value="'[' in line.display_name"/>
                                                         <t t-if="has_simbol">
                                                             <t t-set="name_parts" t-value="line.display_name.split('[')"/>
-                                                            <t t-esc="name_parts[1]"/><br />
+                                                            <t t-set="name_parts" t-value="name_parts[1].split(']')"/>
+                                                            <t t-esc="name_parts[0]"/><br />
                                                         </t>
                                                     </t>
                                                 </t>

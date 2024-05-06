@@ -153,7 +153,7 @@
                                             <p>
                                                 <t t-foreach="o.invoice_line_ids" t-as="line">
                                                     <t t-set="name_parts" t-value="line.display_name.split(': ')"/>
-                                                    <t t-if="name_parts and name_parts[1]">
+                                                    <t t-if="name_parts and len(name_parts) > 0">
                                                         <t t-set="modified_name" t-value="name_parts[1].split(',')"/>
                                                         <t t-set="first_part" t-value="modified_name[0]"/>
                                                         <t t-if="first_part not in first_parts">
@@ -161,7 +161,7 @@
                                                             <t t-esc="first_part"/><br />
                                                         </t>
                                                     </t>
-                                                    <t t-if="not name_parts or not name_parts[1]">
+                                                    <t t-else="">
                                                         <t t-esc="line.display_name"/><br />
                                                     </t>
                                                 </t>

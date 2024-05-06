@@ -151,17 +151,7 @@
                                         <div>
                                             <strong>Referencia:</strong>
                                             <p>
-                                                <t t-foreach="o.invoice_line_ids" t-as="line">
-                                                    <t t-if="line.display_name and line.display_name.strip()">
-                                                        <t t-set="name_parts" t-value="line.display_name.split(': ')"/>
-                                                        <t t-set="modified_name" t-value="name_parts[1].split(',')"/>
-                                                        <t t-set="first_part" t-value="modified_name[0]"/>
-                                                        <t t-if="first_part not in first_parts">
-                                                            <t t-set="first_parts" t-value="first_parts + [first_part]" />
-                                                            <t t-esc="first_part"/><br />
-                                                        </t>
-                                                    </t>
-                                                </t>
+                                                <t-esc="line.move_type" />
                                             </p>
                                         </div>
                                     </t>

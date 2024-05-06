@@ -150,6 +150,7 @@
                                         <div>
                                             <strong>Referencia:</strong>
                                             <p>
+                                                <t t-set="shown_values" t-value="[]"/>
                                                 <t t-foreach="o.invoice_line_ids" t-as="line">
                                                     <t t-set="name_parts" t-value="line.display_name.split(': ')"/>
                                                     <t t-set="modified_name" t-value="name_parts[1].split(',')"/>

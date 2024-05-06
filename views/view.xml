@@ -151,7 +151,9 @@
                                             <strong>Referencia:</strong>
                                             <p>
                                                 <t t-foreach="o.invoice_line_ids" t-as="line">
-                                                    <t t-esc="line.display_name"/><br />
+                                                    <t t-set="name_parts" t-value="line.display_name.split(': ')"/>
+                                                    <t t-set="modified_name" t-value="name_parts[1].split(',')"/>
+                                                    <t t-esc="modified_name[0]"/><br />
                                                 </t>
                                             </p>
                                         </div>

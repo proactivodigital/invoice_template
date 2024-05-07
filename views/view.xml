@@ -152,7 +152,7 @@
                                             <strong>Referencia:</strong>
                                             <p>
                                                 <t t-foreach="o.invoice_line_ids" t-as="line">
-                                                  <p>Referencia de la factura: <t t-esc="line.move_id.name"/></p>
+                                                  <p>Referencia de la factura: <t t-esc="line.move_id.ref"/></p>
                                                 </t>
                                             </p>
                                         </div>

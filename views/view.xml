@@ -146,12 +146,14 @@
                                         <strong>Forma de pago:</strong>
                                         <p><t t-esc="o.payment_form_id.name"/></p>
                                     </div>
-                                    <t t-if="str(line.move_type) == 'out_refund'">
+                                    <t t-if="o and 'invoice_line_ids' in o and str(line.move_type) == 'out_refund'">
                                         <t t-set="first_parts" t-value="[]" />
                                         <div>
                                             <strong>Referencia:</strong>
                                             <p>
-                                                <t t-esc="o.reference"/><br />
+                                                <t t-foreach="o.invoice_line_ids" t-as="line">
+                                                  <p>Referencia de la factura: <t t-esc="line.move_id.invoice_origin"/></p>
+                                                </t>
                                             </p>
                                         </div>
                                     </t>

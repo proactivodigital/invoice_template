@@ -150,7 +150,7 @@
                                         <div>
                                             <strong>Referencia:</strong>
                                             <p>
-                                                <t t-esc="o.journal_id.sequence_id.name"/><br />
+                                                <t t-esc="o.journal_id.memo"/><br />
                                             </p>
                                         </div>
                                     </t>

@@ -152,7 +152,17 @@
                                             <strong>Referencia:</strong>
                                             <p>
                                                 <t t-foreach="o.invoice_line_ids" t-as="line">
-                                                  <p>Referencia de la factura: <t t-esc="line.move_id.ref"/></p>
+                                                    <t t-set="has_comma" t-value="',' in line.move_id.ref"/>
+                                                    <t t-if="has_comma">
+                                                        <t t-set="name_parts" t-value="line.move_id.ref.split(',')"/>
+                                                        <t t-if="name_parts and len(name_parts) > 0">
+                                                            <t t-set="first_parts" t-value="first_parts + [name_parts[0]]" />
+                                                            <t t-esc="name_parts[0]"/><br />
+                                                        </t>
+                                                    </t>
+                                                    <t t-else="">
+                                                        <t t-esc="line.move_id.ref"/><br />
+                                                    </t>
                                                 </t>
                                             </p>
                                         </div>

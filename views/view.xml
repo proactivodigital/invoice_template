@@ -31,7 +31,12 @@
                                         
                                     </t>
                                     <t t-if="o and 'name' in o">
-                                        Factura Electrónica de Venta <strong style="font-size: 20px"> <t t-esc="o.name"/> </strong><br />
+                                        <t t-if="str(line.move_type) == 'out_refund'">
+                                            Nota Crédito electrónica <strong style="font-size: 20px"> <t t-esc="o.name"/> </strong><br />
+                                        </t>
+                                        <t t-if="str(line.move_type) != 'out_refund'">
+                                            Factura Electrónica de Venta <strong style="font-size: 20px"> <t t-esc="o.name"/> </strong><br />
+                                        </t>
                                     </t>
                                     <strong><t t-esc="o.order_ref_number"/></strong>
                                 </p>

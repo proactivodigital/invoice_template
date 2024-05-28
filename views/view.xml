@@ -302,6 +302,7 @@
                                                 <strong>Régimen común</strong><br/>
                                                 <strong>No somos grandes contribuyentes</strong><br/>
                                                 <strong>CUENTA CORRIENTE BANCOLOMBIA 610-078729-48 / BANCO DE BOGOTA 379-03632-0</strong>
+                                                <strong><t t-esc="o.narration"/></strong>
                                             </p>
                                         </div>
                                         <div class="d-flex justify-content-end align-items-center w-50 fw-bold">
@@ -360,7 +361,6 @@
                                                 </tbody>
                                             </table>
                                         </div>
-                                        <t t-esc="o.narration"/>
                                     </t>
                                     <t t-if="doc">
                                         <div class="w-50">

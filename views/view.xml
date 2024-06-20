@@ -219,7 +219,7 @@
                                                             <t t-esc="'{:,.2f}'.format(float(line.quantity * line.price_unit)).replace(',', ' ').replace('.', ',').replace(' ', '.')"/>
                                                         </td>
                                                         <td>
-                                                            <t t-esc="o.discount"/>
+                                                            <t t-esc="line.discount"/>
                                                         </td>
                                                     </tr>
                                                     <t t-set="line_number" t-value="line_number + 1"/>

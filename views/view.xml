@@ -176,6 +176,7 @@
                                                 <th scope="col">Precio Unitario</th>
                                                 <th scope="col">IVA</th>
                                                 <th scope="col">Importe</th>
+                                                <th scope="col">Descuento</th>
                                             </tr>
                                         </t>
                                         <t t-if="doc">
@@ -185,7 +186,6 @@
                                                 <th scope="col">Precio Unitario</th>
                                                 <th scope="col">IVA</th>
                                                 <th scope="col">Importe</th>
-                                                <th scope="col">Descuento</th>
                                             </tr>
                                         </t>
                                     </thead>

@@ -1,6 +1,6 @@
 {
     'name': 'Invoice template',
-    'version': '17.0.21.12.050100',
+    'version': '1.0',
     'depends': ['base', 'account'],
     'data': [
         'views/view.xml',
@@ -11,5 +11,4 @@
     ],
     'installable': True,
     'auto_install': False,
-    'license': "LGPL-3",
 }

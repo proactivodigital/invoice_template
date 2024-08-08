@@ -5,10 +5,10 @@
             <xpath expr="//div[contains(@class,'header')]" position="replace">
                 <div class="d-flex justify-content-between align-items-center w-100" style="height: 170px; font-size: 12px;">
                     <div class="d-flex justify-content-center align-items-center">
-                        <div class="logo-infopro" style="width: 140px; height: 50px; margin-right: 15px;">
+                        <div class="logo-infopro" style="width: 120px; height: 30px; margin-right: 15px;">
                             <img class="object-fit-cover" t-if="company.logo" t-att-src="image_data_uri(company.logo)" alt="Logo" style="width: 100%; height: 100%; object-fit: contain;"/>
                         </div>
-                        <div class="d-flex justify-content-center align-items-center w-100" style="font-size: 10px">
+                        <div class="d-flex justify-content-center align-items-center w-100" style="font-size: 12px">
                             <t t-esc="res_company.company_details"/>
                         </div>
                     </div>
@@ -20,68 +20,25 @@
                         </div>
                         <div class="details-infopro">
                             <t t-if="o and 'ei_operation' in o">
-                                <p style="font-size: 10px">
+                                <p style="font-size: 12px">
                                     <strong>NIT: </strong> <t t-esc="o.company_id.vat"/><br/>
                                     <strong>Tipo de organización: </strong> <t t-esc="o.company_id.type_organization_id.name"/> <br/>
                                     <strong>Tipo de regimén: </strong> <t t-esc="o.company_id.type_regime_id.name"/><br/>
                                     <strong>Tipo de responsabilidad: </strong> <t t-esc="o.company_id.type_liability_id.name"/><br/>
                                     <strong>Tipo de operación: </strong> <t t-esc="o.ei_operation"/><br/>
-                                    <t t-if="o and 'trm_value' in o and o.trm_value > 0">
-                                        <strong>Valor de TRM: </strong> <t t-esc="o.currency_id.symbol" /> <t t-esc="'{:,.2f}'.format(float(o.trm_value)).replace(',', ' ').replace('.', ',').replace(' ', '.')"/><br/>
-                                        
-                                    </t>
                                     <t t-if="o and 'name' in o">
-                                        <t t-if="str(line.move_type) == 'out_refund'">
-                                            Nota Crédito electrónica <strong style="font-size: 20px"> <t t-esc="o.name"/> </strong><br />
-                                        </t>
-                                        <t t-if="str(line.move_type) != 'out_refund'">
-                                            Factura Electrónica de Venta <strong style="font-size: 20px"> <t t-esc="o.name"/> </strong><br />
-                                        </t>
+                                        Factura Electrónica de Venta <strong style="font-size: 20px"> <t t-esc="o.name"/> </strong><br />
                                     </t>
                                     <strong><t t-esc="o.order_ref_number"/></strong>
                                 </p>
                             </t>
                             <t t-if="doc">
-                                <p style="font-size: 10px">
+                                <p style="font-size: 12px">
                                     Cotizacion # <strong style="font-size: 20px"> <t t-esc="doc.name"/> </strong>
                                 </p>
-                                <t t-if="'is_subscription' in doc and doc.is_subscription and 'recurrence_id' in doc">
-                                    <p>
-                                        <strong style="font-size: 20px">Recurrencia:</strong> 
-                                        <t t-esc="doc.recurrence_id.name"/>
-                                    </p>
-                                </t>
-                                <p style="font-size: 10px">
-                                    <strong>Fecha de Cotización:</strong> 
-                                    <t t-esc="doc.date_order" t-options='{"widget": "date", "date_format": "Y-m-d"}'/>
-                                </p>
-                                <p style="font-size: 10px">
-                                    <strong>Vencimiento:</strong> 
-                                    <t t-esc="doc.validity_date" t-options='{"widget": "date", "date_format": "Y-m-d"}'/>
-                                </p>
-                                <p style="font-size: 10px">
-                                    <strong>Vendedor:</strong> 
-                                    <t t-esc="doc.user_id.name"/>
-                                </p>
-                                <t t-if="doc.payment_term_id">
-                                    <p style="font-size: 10px">
-                                        <strong>Plazo de pago:</strong>
-                                        <t t-if="doc.payment_term_id.name.lower() != 'pago inmediato'">
-                                            <t t-esc="doc.payment_term_id.name"/>
-                                        </t>
-                                        <t t-if="doc.payment_term_id.name.lower() == 'pago inmediato'">
-                                            Anticipado
-                                        </t>
-                                    </p>
-                                </t>
                             </t>
                             <t t-if="o and not doc and not 'ei_operation' in o and 'name' in o and o.name">
                                 <t t-esc="o.name"/>
-                            </t>
-                            <t t-if="report_name">
-                                <span style="font-size: 10px" t-if="report_name.endswith('fuente')">CERTIFICADO DE RETENCIÓN POR TERCEROS</span>
-                                <span style="font-size: 10px" t-if="report_name.endswith('ica')">CERTIFICADO DE RETENCIÓN EN ICA</span>
-                                <span style="font-size: 10px" t-if="report_name.endswith('iva')">CERTIFICADO DE RETENCIÓN DE IVA</span>
                             </t>
                         </div>
                     </div>
@@ -90,7 +47,7 @@
 
             <xpath expr="//div[contains(@t-attf-class, 'article')]" position="replace">
                 <div t-attf-class="o_company_#{company.id}_layout article o_report_layout_striped {{  'o_report_layout_background' if company.layout_background in ['Geometric', 'Custom']  else  '' }}" t-attf-style="background-image: url({{ 'data:image/png;base64,%s' % company.layout_background_image.decode('utf-8') if company.layout_background_image and company.layout_background == 'Custom' else '/base/static/img/bg_background_template.jpg' if company.layout_background == 'Geometric' else ''}});" t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
-                    <div style="font-size: 12px; margin-top: 10px">
+                    <div style="font-size: 14px; margin-top: 10px">
                         <div class="d-flex justify-content-between align-items-start w-100" style="display: flex; margin-top: 10px">
                             <div class="d-flex justify-content-start align-items-start w-50">
                                 <t t-if="doc">
@@ -117,31 +74,16 @@
                                         <t t-esc="o.employee_id.address_home_id.name"/>
                                     </p>
                                 </t>
-                                <t t-if="partner and 'partner_id' in partner and options">
-                                    <p>
-                                        NIT: <t t-esc="partner['partner_id'].vat"/><br />
-                                        Fecha de Expedición: <t t-esc="options['expedition_date']"/><br />
-                                        Nombre/Razón Social: <t t-esc="partner['partner_id'].display_name"/><br />
-                                        Fecha de Declaración: <t t-esc="options['declaration_date']"/><br />
-                                        Ciudad Tercero: <t t-esc="partner['partner_id'].city"/><br />
-                                        Dirección: <t t-esc="partner['partner_id'].street"/>
-                                    </p>
-                                    <p>
-                                        Durante el año gravable de <t t-esc="current_year"/>, practicó en la ciudad de
-                                        <t t-esc="env.company.city"/>
-                                        <span t-if="report_name.endswith('fuente')"> retención en la fuente a</span>
-                                        <span t-if="report_name.endswith('ica')"> retención de ICA a</span>
-                                        <span t-if="report_name.endswith('iva')"> retención de IVA a</span>
-                                        <t t-esc="partner['partner_id'].display_name"/> con NIT:
-                                        <t t-esc="partner['partner_id'].vat"/>.
-                                    </p>
-                                </t>
                             </div>
                             <div class="d-flex justify-content-between align-items-center w-75">
                                 <t t-if="o and 'ei_issue_datetime' in o and 'ei_expedition_date' in o and 'invoice_date_due' in o and 'payment_form_id' in o">
                                     <div>
                                         <strong>Fecha de emisión:</strong>
-                                        <p><t t-esc="o.invoice_date" t-options='{"widget": "date"}'/></p>
+                                        <p><t t-esc="o.ei_issue_datetime" t-options='{"widget": "date", "date_format": "Y-m-d"}'/></p>
+                                    </div>
+                                    <div>
+                                        <strong>Fecha de expedición:</strong>
+                                        <p><t t-esc="o.ei_expedition_date" t-options='{"widget": "date"}'/></p>
                                     </div>
                                     <div>
                                         <strong>Fecha de vencimiento:</strong>
@@ -151,14 +93,26 @@
                                         <strong>Forma de pago:</strong>
                                         <p><t t-esc="o.payment_form_id.name"/></p>
                                     </div>
-                                    <t t-if="str(line.move_type) == 'out_refund'">
-                                        <div>
-                                            <strong>Referencia:</strong>
-                                            <p>
-                                                <t t-esc="o.ref"/><br />
-                                            </p>
+                                </t>
+                                <t t-if="doc">
+                                    <t t-if="'is_subscription' in doc and doc.is_subscription and 'recurrence_id' in doc">
+                                        <div style="margin-left:8px; text-align:center">
+                                            <strong>Recurrencia::</strong>
+                                            <p><t t-esc="doc.recurrence_id.name"/></p>
                                         </div>
                                     </t>
+                                    <div style="margin-left:8px; text-align:center">
+                                        <strong>Fecha de Cotización:</strong>
+                                        <p><t t-esc="doc.date_order" t-options='{"widget": "date", "date_format": "Y-m-d"}'/></p>
+                                    </div>
+                                    <div style="margin-left:8px; text-align:center">
+                                        <strong>Vencimiento:</strong>
+                                        <p><t t-esc="doc.validity_date" t-options='{"widget": "date", "date_format": "Y-m-d"}'/></p>
+                                    </div>
+                                    <div style="margin-left:8px; text-align:center">
+                                        <strong>Vendedor:</strong>
+                                        <p><t t-esc="doc.user_id.name"/></p>
+                                    </div>
                                 </t>
                             </div>
                         </div>
@@ -176,7 +130,6 @@
                                                 <th scope="col">Precio Unitario</th>
                                                 <th scope="col">IVA</th>
                                                 <th scope="col">Importe</th>
-                                                <th scope="col">Descuento</th>
                                             </tr>
                                         </t>
                                         <t t-if="doc">
@@ -209,17 +162,12 @@
                                                         </td>
                                                         <td>
                                                             <t t-foreach="line.tax_ids" t-as="tax">
-                                                                <t t-if="tax.amount == 19.0">
-                                                                    <p><t t-esc="tax.amount"/></p>
-                                                                </t>
+                                                                <p><t t-esc="tax.amount"/></p>
                                                             </t>
                                                         </td>
                                                         <td>
                                                             <t t-esc="o.currency_id.symbol" />
                                                             <t t-esc="'{:,.2f}'.format(float(line.quantity * line.price_unit)).replace(',', ' ').replace('.', ',').replace(' ', '.')"/>
-                                                        </td>
-                                                        <td>
-                                                            <t t-esc="line.discount"/>
                                                         </td>
                                                     </tr>
                                                     <t t-set="line_number" t-value="line_number + 1"/>
@@ -305,11 +253,10 @@
                                                 <strong>Representación gráfica de facturación electrónica impresa por computador con software propio por <t t-esc="o.company_id.business_name"/></strong><br/>
                                                 <strong>Régimen común</strong><br/>
                                                 <strong>No somos grandes contribuyentes</strong><br/>
-                                                <strong>CUENTA CORRIENTE BANCOLOMBIA 610-078729-48 / BANCO DE BOGOTA 379-03632-0</strong>
-                                                <t t-if="res_company and 'invoice_terms' in res_company">
-                                                    <strong><t t-esc="res_company.invoice_terms"/></strong>
-                                                </t>
+                                                <strong>CUENTA CORRIENTE BANCOLOMBIA 292-168968-41</strong>
                                             </p>
+                                            <t t-esc="o.narration"/><br/>
+                                            <strong><t t-esc="o.resolution_id.resolution_type_document_id.type"/>: </strong> <t t-esc="o.ei_uuid"/>
                                         </div>
                                         <div class="d-flex justify-content-end align-items-center w-50 fw-bold">
                                             <table class="table">
@@ -317,6 +264,13 @@
                                                     <tr>
                                                         <td>Moneda</td>
                                                         <td><t t-esc="o.currency_id.name"/></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Total sin retenciones</td>
+                                                        <td>
+                                                            <t t-esc="o.currency_id.symbol" />
+                                                            <t t-esc="'{:,.2f}'.format(int(o.ei_amount_total_no_withholding)).replace(',', ' ').replace('.', ',').replace(' ', '.')"/>
+                                                        </td>
                                                     </tr>
                                                     <t t-if="tax_totals and 'subtotals' in tax_totals">
                                                         <t t-foreach="tax_totals['subtotals']" t-as="subtotal">
@@ -331,13 +285,6 @@
                                                         <td>
                                                             <t t-esc="o.currency_id.symbol" />
                                                             <t t-esc="'{:,.2f}'.format(int(o.ei_amount_tax_no_withholding)).replace(',', ' ').replace('.', ',').replace(' ', '.')"/>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Retenciones</td>
-                                                        <td>
-                                                            <t t-esc="o.currency_id.symbol" />
-                                                            <t t-esc="'{:,.2f}'.format(int(o.ei_amount_tax_withholding)).replace(',', ' ').replace('.', ',').replace(' ', '.')"/>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -375,29 +322,10 @@
                                         <div class="d-flex justify-content-end align-items-center w-50 fw-bold">
                                             <table class="table table-sm table-borderless">
                                                 <!-- Tax totals -->
-                                                <tr>
-                                                    <td>Moneda</td>
-                                                    <td><t t-esc="o.currency_id.name"/></td>
-                                                </tr>
                                                 <t t-set="tax_totals" t-value="doc.tax_totals"/>
                                                 <t t-call="account.document_tax_totals"/>
                                             </table>
                                         </div>
-                                    </t>
-                                </div>
-                            </div> 
-
-                            <div class="d-flex justify-content-between align-items-center w-100">
-                                <div class="d-flex justify-content-between align-items-center w-100">
-                                    <t t-if="o and 'resolution_id' in o and 'resolution_resolution' in o.resolution_id and 'resolution_resolution_date' in o.resolution_id">
-                                        <p>
-                                            <strong>
-                                                <t t-esc="o.resolution_id.resolution_type_document_id.type"/>: 
-                                            </strong> 
-                                            <span>
-                                                <t t-esc="o.ei_uuid"/>
-                                            </span> 
-                                        </p> 
                                     </t>
                                 </div>
                             </div> 
@@ -635,80 +563,6 @@
                                     </tr>
                                 </tbody>
                             </table>
-                        </t>
-
-                        <t t-if="report_name and partner">
-                            <div class="d-flex justify-content-between align-items-center w-100">
-                                <table class="table" t-if="report_name.endswith('iva')">
-                                    <thead>
-                                        <tr>
-                                            <th><strong>Bimestre</strong></th>
-                                            <th><strong>Monto Total Operación</strong></th>
-                                            <th><strong>Monto del Pago Sujeto Retención</strong></th>
-                                            <th><strong>Retenido Consignado</strong></th>
-                                            <th><strong>%</strong></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr t-foreach="partner['lines']" t-as="line">
-                                            <td><t t-esc="line.get('bimestre')"/></td>
-                                            <td><t t-esc="line.get('tax_base_amount')"/></td>
-                                            <td><t t-esc="line.get('balance_15_over_19')"/></td>
-                                            <td><t t-esc="line.get('balance')"/></td>
-                                            <td><t t-esc="line.get('percentage')"/></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-
-                            <div class="d-flex justify-content-between align-items-center w-100">
-                                <div class="d-flex justify-content-between align-items-center w-100">
-                                    <div class="w-50">
-                                        <div class="col-12" t-if="report_name.endswith('fuente')">
-                                            Señor contribuyente: Favor tener en cuenta que la base certificada por nosotros corresponde a la sometida a retención durante el periodo gravable según las normas vigentes sobre la materia y podría ser diferente a lo facturado por usted durante el mismo periodo. al declarar tenerlo presente.
-                                        </div>
-                                        <div class="col-12">
-                                            El presente certificado se expide on concordancia con las disposiciones legales contenidas en al artículo 381 del Estatuto Tributario.
-                                        </div>
-                                        <div class="col-12">
-                                            Dicha Retención fue consignada oportunamente a nombre de la Dirección de Impuestos y Aduanas Nacionales en la Ciudad de
-                                            <t t-esc="env.company.city"/>
-                                        </div>
-                                        <div class="col-12">
-                                            NO REQUIRE FIRMA AUTOGRAFA. <t t-esc="options['article']"/>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex justify-content-end align-items-center w-50 fw-bold">
-                                        <div t-att-class="report_name.endswith('iva') and 'offset-1 col-11' or 'offset-5 col-7'" style="border: 2px solid black;">
-                                            <div class="col-12 text-center">
-                                                <strong>TOTAL DE IMPUESTOS DESCONTABLES</strong>
-                                            </div>
-                                            <div t-if="report_name.endswith('iva')" class="col-4">
-                                                <div>
-                                                    <strong>MONTO TOTAL OPERACIONAL:</strong> <t t-esc="partner.get('tax_base_amount', 0.0)"/>
-                                                </div>
-                                            </div>
-                                            <div t-att-class="not report_name.endswith('iva') and 'col-6' or 'col-4'">
-                                                <div>
-                                                    <strong>MONTO DEL PAGO SUJETO A:</strong>
-                                                    <t t-if="report_name.endswith('iva')">
-                                                        <t t-esc="partner.get('balance_15_over_19', 0.0)"/>
-                                                    </t>
-                                                    <t t-if="not report_name.endswith('iva')">
-                                                        <t t-esc="partner.get('tax_base_amount', 0.0)"/>
-                                                    </t>
-                                                </div>
-                                            </div>
-                                            <div t-att-class="not report_name.endswith('iva') and 'col-6' or 'col-4'">
-                                                <div>
-                                                    <strong>RETENIDO Y CONSIGNADO:</strong>
-                                                    <t t-esc="partner.get('balance', 0.0)"/>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         </t>
                     </div>
                 </div>

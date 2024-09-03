@@ -171,7 +171,6 @@
                                             <tr>
                                                 <th scope="col">#</th>
                                                 <th scope="col">Descripcion</th>
-                                                <th scope="col">Notas</th>
                                                 <th scope="col">Cantidad</th>
                                                 <th scope="col">Precio Unitario</th>
                                                 <th scope="col">IVA</th>
@@ -197,9 +196,6 @@
                                                     <tr>
                                                         <th><t t-esc="line_number"/></th>
                                                         <td><t t-esc="line.name"/></td>
-                                                        <td>
-                                                            <span t-field="line.ei_notes"/>
-                                                        </td>
                                                         <td>
                                                             <t t-esc="line.quantity"/>
                                                         </td>

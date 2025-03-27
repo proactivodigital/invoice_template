@@ -700,6 +700,7 @@
                     </div>
                 </div>
             </xpath> 
+
             <xpath expr="//div[contains(@t-attf-class, 'footer')]" position="replace">
                 <div t-attf-class="o_company_#{company.id}_layout footer o_background_footer">
                     <div class="text-center">

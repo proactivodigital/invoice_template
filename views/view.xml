@@ -1,7 +1,7 @@
 <odoo>
     <data>
         <template id="external_layout_striped_custom" inherit_id="web.external_layout_striped">
-            <xpath expr="//div[contains(@class,'header')]" position="replace">
+            <xpath expr="//div[contains(@t-attf-class, 'header')]" position="replace">
                 <div class="d-flex justify-content-between align-items-center w-100" style="height: 170px; font-size: 12px;">
                     <div class="d-flex justify-content-center align-items-center">
                         <div class="logo-infopro" style="width: 140px; height: 50px; margin-right: 15px;">

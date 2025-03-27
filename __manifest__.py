@@ -4,7 +4,7 @@
 
     # Version of the module. This field specifies the version of the module.
     # In this case, the module version is 17.0.21.12.050100.
-    'version': '17.0.21.12.050100',
+    'version': '18.0',
 
     # List of modules that this module depends on.
     # In this case, the module depends on the 'base' and 'account' modules.

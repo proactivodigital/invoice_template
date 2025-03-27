@@ -14,7 +14,7 @@
     # Data files that will be loaded when the module is installed.
     # Here, it points to a 'view.xml' file which is likely to contain the views for the invoice template.
     'data': [
-        'views/view.xml',
+        
     ],
 
     # Boolean field that indicates if the module is installable.

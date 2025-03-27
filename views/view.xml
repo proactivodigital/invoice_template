@@ -1,0 +1,717 @@
+<odoo>
+    <data>
+        <template id="external_layout_striped_custom" inherit_id="web.external_layout_striped">
+            <xpath expr="//div[contains(@class,'header')]" position="replace">
+                <div class="d-flex justify-content-between align-items-center w-100" style="height: 170px; font-size: 12px;">
+                    <div class="d-flex justify-content-center align-items-center">
+                        <div class="logo-infopro" style="width: 140px; height: 50px; margin-right: 15px;">
+                            <img class="object-fit-cover" t-if="company.logo" t-att-src="image_data_uri(company.logo)" alt="Logo" style="width: 100%; height: 100%; object-fit: contain;"/>
+                        </div>
+                        <div class="d-flex justify-content-center align-items-center w-100" style="font-size: 10px">
+                            <t t-esc="res_company.company_details"/>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-center align-items-center">
+                        <div class="qr-infopro" style="width: 100px; height: 100px; margin-right: 15px;">
+                            <t t-if="o and 'ei_qr_image' in o">
+                                <img  t-attf-src="data:image/png;base64,{{ o.ei_qr_image }}" style="width: 100%; height: 100%;"/>
+                            </t>
+                        </div>
+                        <div class="details-infopro">
+                            <t t-if="o and 'ei_operation' in o">
+                                <p style="font-size: 10px">
+                                    <strong>NIT: </strong> <t t-esc="o.company_id.vat"/><br/>
+                                    <strong>Tipo de organización: </strong> <t t-esc="o.company_id.type_organization_id.name"/> <br/>
+                                    <strong>Tipo de regimén: </strong> <t t-esc="o.company_id.type_regime_id.name"/><br/>
+                                    <strong>Tipo de responsabilidad: </strong> <t t-esc="o.company_id.type_liability_id.name"/><br/>
+                                    <strong>Tipo de operación: </strong> <t t-esc="o.ei_operation"/><br/>
+                                    <t t-if="o and 'trm_value' in o and o.trm_value > 0">
+                                        <strong>Valor de TRM: </strong> <t t-esc="o.currency_id.symbol" /> <t t-esc="'{:,.2f}'.format(float(o.trm_value)).replace(',', ' ').replace('.', ',').replace(' ', '.')"/><br/>
+                                        
+                                    </t>
+                                    <t t-if="o and 'name' in o">
+                                        <t t-if="str(line.move_type) == 'out_refund'">
+                                            Nota Crédito electrónica <strong style="font-size: 20px"> <t t-esc="o.name"/> </strong><br />
+                                        </t>
+                                        <t t-if="str(line.move_type) != 'out_refund'">
+                                            Factura Electrónica de Venta <strong style="font-size: 20px"> <t t-esc="o.name"/> </strong><br />
+                                        </t>
+                                    </t>
+                                    <strong><t t-esc="o.order_ref_number"/></strong>
+                                </p>
+                            </t>
+                            <t t-if="doc">
+                                <p style="font-size: 10px">
+                                    Cotizacion # <strong style="font-size: 20px"> <t t-esc="doc.name"/> </strong>
+                                </p>
+                                <t t-if="'is_subscription' in doc and doc.is_subscription and 'recurrence_id' in doc">
+                                    <p>
+                                        <strong style="font-size: 20px">Recurrencia:</strong> 
+                                        <t t-esc="doc.recurrence_id.name"/>
+                                    </p>
+                                </t>
+                                <p style="font-size: 10px">
+                                    <strong>Fecha de Cotización:</strong> 
+                                    <t t-esc="doc.date_order" t-options='{"widget": "date", "date_format": "Y-m-d"}'/>
+                                </p>
+                                <p style="font-size: 10px">
+                                    <strong>Vencimiento:</strong> 
+                                    <t t-esc="doc.validity_date" t-options='{"widget": "date", "date_format": "Y-m-d"}'/>
+                                </p>
+                                <p style="font-size: 10px">
+                                    <strong>Vendedor:</strong> 
+                                    <t t-esc="doc.user_id.name"/>
+                                </p>
+                                <t t-if="doc.payment_term_id">
+                                    <p style="font-size: 10px">
+                                        <strong>Plazo de pago:</strong>
+                                        <t t-if="doc.payment_term_id.name.lower() != 'pago inmediato'">
+                                            <t t-esc="doc.payment_term_id.name"/>
+                                        </t>
+                                        <t t-if="doc.payment_term_id.name.lower() == 'pago inmediato'">
+                                            Anticipado
+                                        </t>
+                                    </p>
+                                </t>
+                            </t>
+                            <t t-if="o and not doc and not 'ei_operation' in o and 'name' in o and o.name">
+                                <t t-esc="o.name"/>
+                            </t>
+                            <t t-if="report_name">
+                                <span style="font-size: 10px" t-if="report_name.endswith('fuente')">CERTIFICADO DE RETENCIÓN POR TERCEROS</span>
+                                <span style="font-size: 10px" t-if="report_name.endswith('ica')">CERTIFICADO DE RETENCIÓN EN ICA</span>
+                                <span style="font-size: 10px" t-if="report_name.endswith('iva')">CERTIFICADO DE RETENCIÓN DE IVA</span>
+                            </t>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+
+            <xpath expr="//div[contains(@t-attf-class, 'article')]" position="replace">
+                <div t-attf-class="o_company_#{company.id}_layout article o_report_layout_striped {{  'o_report_layout_background' if company.layout_background in ['Geometric', 'Custom']  else  '' }}" t-attf-style="background-image: url({{ 'data:image/png;base64,%s' % company.layout_background_image.decode('utf-8') if company.layout_background_image and company.layout_background == 'Custom' else '/base/static/img/bg_background_template.jpg' if company.layout_background == 'Geometric' else ''}});" t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
+                    <div style="font-size: 12px; margin-top: 10px">
+                        <div class="d-flex justify-content-between align-items-start w-100" style="display: flex; margin-top: 10px">
+                            <div class="d-flex justify-content-start align-items-start w-50">
+                                <t t-if="doc">
+                                    <p>
+                                        NIT: <t t-esc="doc.partner_id.vat"/><br />
+                                        <t t-esc="doc.partner_id.name"/><br />
+                                        <t t-esc="doc.partner_id.street"/><br />
+                                        <t t-esc="doc.partner_id.phone"/><br />
+                                        <t t-esc="doc.partner_id.email"/>
+                                    </p>
+                                </t>
+                                <t t-if="not doc and o and 'partner_id' in o">
+                                    <p>
+                                        NIT: <t t-esc="o.partner_id.vat"/><br />
+                                        <t t-esc="o.partner_id.name"/><br />
+                                        <t t-esc="o.partner_id.street"/><br />
+                                        <t t-esc="o.partner_id.phone"/><br />
+                                        <t t-esc="o.partner_id.email"/>
+                                    </p>
+                                </t>
+                                <t t-if="not doc and o and 'number' in o and 'employee_id' in o">
+                                    <p>
+                                        Nómina electrónica: <t t-esc="o.number"/><br />
+                                        <t t-esc="o.employee_id.address_home_id.name"/>
+                                    </p>
+                                </t>
+                                <t t-if="partner and 'partner_id' in partner and options">
+                                    <p>
+                                        NIT: <t t-esc="partner['partner_id'].vat"/><br />
+                                        Fecha de Expedición: <t t-esc="options['expedition_date']"/><br />
+                                        Nombre/Razón Social: <t t-esc="partner['partner_id'].display_name"/><br />
+                                        Fecha de Declaración: <t t-esc="options['declaration_date']"/><br />
+                                        Ciudad Tercero: <t t-esc="partner['partner_id'].city"/><br />
+                                        Dirección: <t t-esc="partner['partner_id'].street"/>
+                                    </p>
+                                    <p>
+                                        Durante el año gravable de <t t-esc="current_year"/>, practicó en la ciudad de
+                                        <t t-esc="env.company.city"/>
+                                        <span t-if="report_name.endswith('fuente')"> retención en la fuente a</span>
+                                        <span t-if="report_name.endswith('ica')"> retención de ICA a</span>
+                                        <span t-if="report_name.endswith('iva')"> retención de IVA a</span>
+                                        <t t-esc="partner['partner_id'].display_name"/> con NIT:
+                                        <t t-esc="partner['partner_id'].vat"/>.
+                                    </p>
+                                </t>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center w-75">
+                                <t t-if="o and 'ei_issue_datetime' in o and 'ei_expedition_date' in o and 'invoice_date_due' in o and 'payment_form_id' in o">
+                                    <div>
+                                        <strong>Fecha de emisión:</strong>
+                                        <p><t t-esc="o.invoice_date" t-options='{"widget": "date"}'/></p>
+                                    </div>
+                                    <div>
+                                        <strong>Fecha de vencimiento:</strong>
+                                        <p><t t-esc="o.invoice_date_due" t-options='{"widget": "date"}'/></p>
+                                    </div>
+                                    <div>
+                                        <strong>Forma de pago:</strong>
+                                        <p><t t-esc="o.payment_form_id.name"/></p>
+                                    </div>
+                                    <t t-if="str(line.move_type) == 'out_refund'">
+                                        <div>
+                                            <strong>Referencia:</strong>
+                                            <p>
+                                                <t t-esc="o.ref"/><br />
+                                            </p>
+                                        </div>
+                                    </t>
+                                </t>
+                            </div>
+                        </div>
+                        <t t-if="doc or (o and 'partner_id' in o)">
+                            <div class="d-flex justify-content-between align-items-center w-100">
+                                <table class="table">
+                                    <thead>
+                                        <t t-if="o and 'invoice_line_ids' in o">
+                                            <tr>
+                                                <th scope="col">#</th>
+                                                <th scope="col">Descripcion</th>
+                                                <th scope="col">Notas</th>
+                                                <th scope="col">Cantidad</th>
+                                                <th scope="col">Precio Unitario</th>
+                                                <th scope="col">IVA</th>
+                                                <th scope="col">Importe</th>
+                                                <th scope="col">Descuento</th>
+                                            </tr>
+                                        </t>
+                                        <t t-if="doc">
+                                            <tr>
+                                                <th scope="col">Descripcion</th>
+                                                <th scope="col">Cantidad</th>
+                                                <th scope="col">Precio Unitario</th>
+                                                <th scope="col">IVA</th>
+                                                <th scope="col">Importe</th>
+                                            </tr>
+                                        </t>
+                                    </thead>
+                                    <tbody>
+                                        <t t-if="o and 'invoice_line_ids' in o">
+                                            <t t-set="line_number" t-value="1"/>
+                                            <t t-foreach="o.invoice_line_ids" t-as="line">
+                                                <t t-if="line.quantity > 0">
+                                                    <tr>
+                                                        <th><t t-esc="line_number"/></th>
+                                                        <td><t t-esc="line.name"/></td>
+                                                        <td>
+                                                            <span t-field="line.ei_notes"/>
+                                                        </td>
+                                                        <td>
+                                                            <t t-esc="line.quantity"/>
+                                                        </td>
+                                                        <td>
+                                                            <t t-esc="o.currency_id.symbol" />
+                                                            <t t-esc="'{:,.2f}'.format(float(line.price_unit)).replace(',', ' ').replace('.', ',').replace(' ', '.')"/>
+                                                        </td>
+                                                        <td>
+                                                            <t t-foreach="line.tax_ids" t-as="tax">
+                                                                <t t-if="tax.amount == 19.0">
+                                                                    <p><t t-esc="tax.amount"/></p>
+                                                                </t>
+                                                            </t>
+                                                        </td>
+                                                        <td>
+                                                            <t t-esc="o.currency_id.symbol" />
+                                                            <t t-esc="'{:,.2f}'.format(float(line.quantity * line.price_unit)).replace(',', ' ').replace('.', ',').replace(' ', '.')"/>
+                                                        </td>
+                                                        <td>
+                                                            <t t-esc="line.discount"/>
+                                                        </td>
+                                                    </tr>
+                                                    <t t-set="line_number" t-value="line_number + 1"/>
+                                                </t>
+                                                <t t-if="line.quantity == 0">
+                                                    <tr>
+                                                        <th></th>
+                                                        <td><span style="font-style: italic; background: #d1d1d1d9"><b><t t-esc="line.name"/></b></span></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                    </tr>
+                                                </t>
+                                            </t>
+                                        </t>
+                                        <t t-if="doc">
+                                            <t t-foreach="lines_to_report" t-as="line">
+                                                <t t-set="current_subtotal" t-value="current_subtotal + line.price_subtotal" groups="account.group_show_line_subtotals_tax_excluded"/>
+                                                <t t-set="current_subtotal" t-value="current_subtotal + line.price_total" groups="account.group_show_line_subtotals_tax_included"/>
+                                                <tr t-att-class="'bg-200 fw-bold o_line_section' if line.display_type == 'line_section' else 'fst-italic o_line_note' if line.display_type == 'line_note' else ''">
+                                                    <t t-if="not line.display_type">
+                                                        <td name="td_name"><span t-field="line.name"/></td>
+                                                        <td name="td_quantity" class="text-end">
+                                                            <span t-field="line.product_uom_qty"/>
+                                                            <span t-field="line.product_uom"/>
+                                                        </td>
+                                                        <td name="td_priceunit" class="text-end">
+                                                            <span t-field="line.price_unit"/>
+                                                        </td>
+                                                        <td t-if="display_discount" class="text-end">
+                                                            <span t-field="line.discount"/>
+                                                        </td>
+                                                        <td name="td_taxes" class="text-end">
+                                                            <span t-out="', '.join(map(lambda x: (x.description or x.name), line.tax_id))"/>
+                                                        </td>
+                                                        <td t-if="not line.is_downpayment" name="td_subtotal" class="text-end o_price_total">
+                                                            <span t-field="line.price_subtotal" groups="account.group_show_line_subtotals_tax_excluded"/>
+                                                            <span t-field="line.price_total" groups="account.group_show_line_subtotals_tax_included"/>
+                                                        </td>
+                                                    </t>
+                                                    <t t-elif="line.display_type == 'line_section'">
+                                                        <td name="td_section_line" colspan="99">
+                                                            <span t-field="line.name"/>
+                                                        </td>
+                                                        <t t-set="current_section" t-value="line"/>
+                                                        <t t-set="current_subtotal" t-value="0"/>
+                                                    </t>
+                                                    <t t-elif="line.display_type == 'line_note'">
+                                                        <td name="td_note_line" colspan="99">
+                                                            <span t-field="line.name"/>
+                                                        </td>
+                                                    </t>
+                                                </tr>
+                                                <t t-if="current_section and (line_last or doc.order_line[line_index+1].display_type == 'line_section') and not line.is_downpayment">
+                                                    <tr class="is-subtotal text-end">
+                                                        <td name="td_section_subtotal" colspan="99">
+                                                            <strong class="mr16">Subtotal</strong>
+                                                            <span t-out="current_subtotal" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.pricelist_id.currency_id}"/>
+                                                        </td>
+                                                    </tr>
+                                                </t>
+                                            </t>
+                                        </t>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center w-100">
+                                <div class="d-flex justify-content-between align-items-center w-100">
+                                    <t t-if="o and 'resolution_id' in o and 'resolution_resolution' in o.resolution_id and 'resolution_resolution_date' in o.resolution_id">
+                                        <div class="w-50">
+                                            <p>
+                                                <strong>Las retenciones son solo a nivel informativo.</strong><br/>
+                                                <strong>Número de autorización de facturación: </strong> <t t-esc="o.resolution_id.resolution_resolution"/><br/>
+                                                <strong>Fecha: </strong> <t t-esc="o.resolution_id.resolution_resolution_date"/><br/>
+                                                <strong>Rango autorizado desde: </strong> <t t-esc="o.resolution_id.resolution_prefix"/> <t t-esc="o.resolution_id.resolution_from"/> <strong> a </strong> <t t-esc="o.resolution_id.resolution_prefix"/> <t t-esc="o.resolution_id.resolution_to"/><br/>
+                                                <strong>Válido desde: </strong> <t t-esc="o.resolution_id.resolution_date_from"/> <strong> a </strong> <t t-esc="o.resolution_id.resolution_date_to"/><br/>
+                                                <strong>Representación gráfica de facturación electrónica impresa por computador con software propio por <t t-esc="o.company_id.business_name"/></strong><br/>
+                                                <strong>Régimen común</strong><br/>
+                                                <strong>No somos grandes contribuyentes</strong><br/>
+                                                <strong>CUENTA CORRIENTE BANCOLOMBIA 610-078729-48 / BANCO DE BOGOTA 379-03632-0</strong>
+                                                <t t-if="res_company and 'invoice_terms' in res_company">
+                                                    <strong><t t-esc="res_company.invoice_terms"/></strong>
+                                                </t>
+                                            </p>
+                                        </div>
+                                        <div class="d-flex justify-content-end align-items-center w-50 fw-bold">
+                                            <table class="table">
+                                                <tbody>
+                                                    <tr>
+                                                        <td>Moneda</td>
+                                                        <td><t t-esc="o.currency_id.name"/></td>
+                                                    </tr>
+                                                    <t t-if="tax_totals and 'subtotals' in tax_totals">
+                                                        <t t-foreach="tax_totals['subtotals']" t-as="subtotal">
+                                                            <tr>
+                                                                <td>Subtotal</td>
+                                                                <td><t t-esc="subtotal['formatted_amount']"/></td>
+                                                            </tr>
+                                                        </t>
+                                                    </t>
+                                                    <tr>
+                                                        <td>IVA</td>
+                                                        <td>
+                                                            <t t-esc="o.currency_id.symbol" />
+                                                            <t t-esc="'{:,.2f}'.format(int(o.ei_amount_tax_no_withholding)).replace(',', ' ').replace('.', ',').replace(' ', '.')"/>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Retenciones</td>
+                                                        <td>
+                                                            <t t-esc="o.currency_id.symbol" />
+                                                            <t t-esc="'{:,.2f}'.format(int(o.ei_amount_tax_withholding)).replace(',', ' ').replace('.', ',').replace(' ', '.')"/>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Total</td>
+                                                        <td>
+                                                            <t t-esc="o.currency_id.symbol" />
+                                                            <t t-esc="'{:,.2f}'.format(int(o.amount_total)).replace(',', ' ').replace('.', ',').replace(' ', '.')"/>
+                                                        </td>
+                                                    </tr>
+                                                    <t t-if="payments_vals">
+                                                        <t t-foreach="payments_vals" t-as="payment">
+                                                            <tr>
+                                                                <td><t t-esc="payment['date']"/></td>
+                                                                <td><t t-esc="payment['amount']"/></td>
+                                                            </tr>
+                                                        </t>
+                                                    </t>
+                                                    <t t-if="o.amount_residual">
+                                                        <tr>
+                                                            <td>Importe adeudado</td>
+                                                            <td>
+                                                                <t t-esc="o.currency_id.symbol" />
+                                                                <t t-esc="'{:,.2f}'.format(int(o.amount_residual)).replace(',', ' ').replace('.', ',').replace(' ', '.')"/>
+                                                            </td>
+                                                        </tr>
+                                                    </t>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </t>
+                                    <t t-if="doc">
+                                        <div class="w-50">
+                                        </div>
+                                        <div class="d-flex justify-content-end align-items-center w-50 fw-bold">
+                                            <table class="table table-sm table-borderless">
+                                                <!-- Tax totals -->
+                                                <tr>
+                                                    <td>Moneda</td>
+                                                    <td><t t-esc="o.currency_id.name"/></td>
+                                                </tr>
+                                                <t t-set="tax_totals" t-value="doc.tax_totals"/>
+                                                <t t-call="account.document_tax_totals"/>
+                                            </table>
+                                        </div>
+                                    </t>
+                                </div>
+                            </div> 
+                            <div class="d-flex justify-content-between align-items-center w-100">
+                                <div class="d-flex justify-content-between align-items-center w-100">
+                                    <t t-if="o and 'resolution_id' in o and 'resolution_resolution' in o.resolution_id and 'resolution_resolution_date' in o.resolution_id">
+                                        <p>
+                                            <strong>
+                                                <t t-esc="o.resolution_id.resolution_type_document_id.type"/>: 
+                                            </strong> 
+                                            <span>
+                                                <t t-esc="o.ei_uuid"/>
+                                            </span> 
+                                        </p> 
+                                    </t>
+                                </div>
+                            </div> 
+                        </t>
+                        <t t-if="o and not doc and not 'partner_id' in o and 'worked_days_line_ids' in o">
+                            <div class="d-flex justify-content-between align-items-center w-100">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Nombre</th>
+                                            <th scope="col">Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <t t-foreach="o.worked_days_line_ids" t-as="worked_days">
+                                            <t t-if="worked_days">
+                                                <tr>
+                                                    <td>
+                                                        <t t-esc="worked_days.name"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="o.currency_id.symbol" />
+                                                        <t t-esc="'{:,.2f}'.format(float(worked_days.amount)).replace(',', ' ').replace('.', ',').replace(' ', '.')"/>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </t>
+                                        <t t-foreach="o.line_ids.filtered(lambda line: line.appears_on_payslip)" t-as="table_line">
+                                            <t t-if="'provisión' not in table_line.display_name.lower() and 
+                                                    'aporte arl' not in table_line.display_name.lower() and 
+                                                    'aporte ccf' not in table_line.display_name.lower() and 
+                                                    'empleador' not in table_line.display_name.lower() and
+                                                    'neto' not in table_line.display_name.lower()">
+                                                <tr>
+                                                    <td>
+                                                        <t t-esc="table_line.display_name"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="o.currency_id.symbol" />
+                                                        <t t-esc="'{:,.2f}'.format(float(table_line.total)).replace(',', ' ').replace('.', ',').replace(' ', '.')"/>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </t>
+                                        <t t-foreach="o.deduction_ids" t-as="table_line">
+                                            <tr>
+                                                <td>
+                                                    <t t-esc="table_line.name"/>
+                                                </td>
+                                                <td>
+                                                    <t t-esc="o.currency_id.symbol" />
+                                                    <t t-esc="'{:,.2f}'.format(float(table_line.amount)).replace(',', ' ').replace('.', ',').replace(' ', '.')"/>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                        <t t-if="o.total_amount">
+                                            <tr>
+                                                <td><b>Total a pagar</b></td>
+                                                <td>
+                                                    <b>
+                                                        <t t-esc="o.currency_id.symbol" />
+                                                        <t t-esc="'{:,.2f}'.format(float(o.total_amount)).replace(',', ' ').replace('.', ',').replace(' ', '.')"/>
+                                                    </b>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </t>
+                        <t t-if="o and not doc and not 'partner_id' in o and not 'worked_days_line_ids' in o and 'reference' in o">
+                            <h2 class="mt16">
+                                Certificado de finalización<br/>
+                            </h2>
+                            <h4>
+                                
+                                <strong t-field="o.reference"/>
+                            </h4>
+                            <div class="text-muted small">Impreso en <t t-esc="print_date"/> UTC</div>
+                            <h5 class="mt16">Detalles del documento</h5>
+                            <div class="row">
+                                <div class="col-6">
+                                    <div><b>Creado por:</b> <span t-field="o.create_uid.sudo().partner_id"/></div>
+                                    <div><b>Creado en:</b> <span t-field="o.create_date"/> (UTC)</div>
+                                    <div><b>Dirección IP de creación:</b> <span t-esc="creation_log and creation_log[0].ip"/></div>
+                                    <div><b>Firmantes:</b> <span t-esc="len(o.sudo().request_item_ids)"/></div>
+                                </div>
+                                <div class="col-6">
+                                    <div><b>Identificación del documento:</b> <t t-esc="o.id"/></div>
+                                    <div><b>Firma:</b> <small t-esc="creation_log and creation_log[0].log_hash"/></div>
+                                </div>
+                            </div>
+                            <br/>
+                            <h5>Participantes</h5>
+                            <table class="table table-sm o_main_table small mb-1">
+                                <t t-set="has_sms_validation" t-value="o.sudo().request_item_ids.filtered(lambda i: i.sms_token)"/>
+                                <thead>
+                                    <tr>
+                                        <th id="participants_signatory" class="text-start">Signatory</th>
+                                        <th id="participants_email" class="text-start">Email</th>
+                                        <th id="participants_email_verification" class="text-start">
+                                            Verificacion de email
+                                        </th>
+                                        <th id="participants_phone" class="text-start" t-if="has_sms_validation">
+                                            Teléfono
+                                        </th>
+                                    </tr>
+                                    <tbody>
+                                        <t t-foreach="o.sudo().request_item_ids" t-as="sri">
+                                            <tr>
+                                                <td><span t-field="sri.partner_id.name"/></td>
+                                                <td><span t-field="sri.partner_id.email"/></td>
+                                                <td class="text-center">
+                                                    <t t-if="sri.access_via_link or sri.partner_id.user_id != False">
+                                                        <i class="fa fa-check-square-o"/>
+                                                    </t>
+                                                    <t t-else="">
+                                                        <i class="fa fa-square-o"/>
+                                                    </t>
+                                                </td>
+                                                <td class="participant_sms_validation" t-if="has_sms_validation">
+                                                    <t t-if="sri.sms_token">
+                                                        <t t-set="number" t-value="''.join(['******', sri.sms_number[-4:]])"/>
+                                                        <span t-esc="number"/>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                            <tr t-if="sri.frame_hash">
+                                                <td colspan="7" class="text-end text-muted small" style="border-end-style:hidden;border-start-style:hidden;">
+                                                    Hash del firmante: <pre style="display:inline" t-field="sri.frame_hash"/>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                    </tbody>
+                                </thead>
+                            </table>
+                            <section class="mb-4">
+                                <div class="text-muted email_verification_footnote">
+                                    <small>Verificación de correo electrónico: el firmante ha confirmado el control de su bandeja de entrada de correo electrónico haciendo clic en un enlace único.</small>
+                                </div>
+                                <div class="text-muted sms_footnote" t-if="has_sms_validation">
+                                    <small>SMS: El firmante ha confirmado su control del número de teléfono mediante un código único enviado por SMS</small>
+                                </div>
+                            </section>
+                            <h5>Eventos de firma</h5>
+                            <table class="table table-sm o_main_table small mb-4">
+                                <t t-set="has_sms_validation" t-value="o.sudo().request_item_ids.filtered(lambda i: i.sms_token)"/>
+                                <thead>
+                                    <tr>
+                                        <th class="text-start">Acción</th>
+                                        <th class="text-start">Por</th>
+                                        <th class="text-start">Fecha (UTC)</th>
+                                        <th class="text-start" groups="sign.group_sign_manager">Geolocalización</th>
+                                        <th class="text-start" groups="sign.group_sign_manager">IP</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="change_logs" t-as="log">
+                                        <tr>
+                                            <td>
+                                                <span t-field="log.action"/>
+                                                <img t-if="log.action == 'sign' and log.sign_request_item_id.signature" class="text-start" t-att-src="image_data_uri(log.sign_request_item_id.signature)" style="max-height: 40px"/>
+                                            </td>
+                                            <td> <span t-field="log.partner_id"/>
+                                            <t t-if="log.partner_id.email">
+                                                <br/><span t-field="log.partner_id.email"/>
+                                            </t>
+                                            </td>
+                                            <td> <span t-field="log.log_date"/> </td>
+                                            <td groups="sign.group_sign_manager">
+                                                <t t-if="log.latitude and log.longitude">
+                                                    <span t-field="log.latitude"/>,
+                                                    <span t-field="log.longitude"/>
+                                                    <div>
+                                                        <a t-attf-href="https://www.google.com/maps/search/?api=1&amp;query={{log.latitude}},{{log.longitude}}">
+                                                            <i class="fa fa-globe"/> Vista
+                                                        </a>
+                                                    </div>
+                                                </t>
+                                                <t t-else="">
+                                                    <span class="text-muted">No disponible</span>
+                                                </t>
+                                            </td>
+                                            <td groups="sign.group_sign_manager"> <span t-field="log.ip"/> </td>
+                                        </tr>
+                                        <tr t-if="log.log_hash">
+                                            <td colspan="7" class="text-end text-muted small" style="border-end-style:hidden;border-start-style:hidden;">
+                                                    Firma: <pre style="display:inline" t-field="log.log_hash"/>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                            <div t-if="o.integrity" class="small text-end text-success">
+                                <p><i class="fa fa-check"/> La integridad del documento es válida.</p>
+                            </div>
+                            <div t-else="" class="small text-end text-muted">
+                                <p><i class="fa fa-exclamation-circle"/> No se pudo verificar la integridad del documento.</p>
+                            </div>
+                            <div class="small" t-if="o.state == 'signed'">
+                                <p>El documento final y este historial de finalización se enviaron por correo electrónico el <span t-field="o.completion_date"/> a: <t t-esc="', '.join(o.sudo()._get_final_recipients())"/>.</p>
+                            </div>
+                            <h5>Access Logs</h5>
+                            <table class="table table-sm o_main_table small mb-4">
+                                <thead>
+                                    <tr>
+                                        <th class="text-start">Visto/descargado por</th>
+                                        <th class="text-start">Fecha (UTC)</th>
+                                        <th class="text-start">Estado</th>
+                                        <th class="text-start" groups="sign.group_sign_manager">Geolocalización</th>
+                                        <th class="text-start" groups="sign.group_sign_manager">ip</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr t-foreach="view_logs" t-as="log">
+                                        <td> <span t-field="log.partner_id"/> <span t-field="log.partner_id.email"/></td>
+                                        <td> <span t-field="log.log_date"/> </td>
+                                        <td> <span t-field="log.request_state"/> </td>
+                                        <td groups="sign.group_sign_manager">
+                                            <t t-if="log.latitude and log.longitude">
+                                                <span t-field="log.latitude"/>,
+                                                <span t-field="log.longitude"/>
+                                                <a t-attf-href="https://www.google.com/maps/search/?api=1&amp;query={{log.latitude}},{{log.longitude}}">
+                                                    <i class="fa fa-globe"/> Vista
+                                                </a>
+                                            </t>
+                                            <t t-else="">
+                                                <span class="text-muted">No disponible</span>
+                                            </t>
+                                        </td>
+                                        <td groups="sign.group_sign_manager"> <span t-field="log.ip"/> </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </t>
+                        <t t-if="report_name and partner">
+                            <div class="d-flex justify-content-between align-items-center w-100">
+                                <table class="table" t-if="report_name.endswith('iva')">
+                                    <thead>
+                                        <tr>
+                                            <th><strong>Bimestre</strong></th>
+                                            <th><strong>Monto Total Operación</strong></th>
+                                            <th><strong>Monto del Pago Sujeto Retención</strong></th>
+                                            <th><strong>Retenido Consignado</strong></th>
+                                            <th><strong>%</strong></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr t-foreach="partner['lines']" t-as="line">
+                                            <td><t t-esc="line.get('bimestre')"/></td>
+                                            <td><t t-esc="line.get('tax_base_amount')"/></td>
+                                            <td><t t-esc="line.get('balance_15_over_19')"/></td>
+                                            <td><t t-esc="line.get('balance')"/></td>
+                                            <td><t t-esc="line.get('percentage')"/></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center w-100">
+                                <div class="d-flex justify-content-between align-items-center w-100">
+                                    <div class="w-50">
+                                        <div class="col-12" t-if="report_name.endswith('fuente')">
+                                            Señor contribuyente: Favor tener en cuenta que la base certificada por nosotros corresponde a la sometida a retención durante el periodo gravable según las normas vigentes sobre la materia y podría ser diferente a lo facturado por usted durante el mismo periodo. al declarar tenerlo presente.
+                                        </div>
+                                        <div class="col-12">
+                                            El presente certificado se expide on concordancia con las disposiciones legales contenidas en al artículo 381 del Estatuto Tributario.
+                                        </div>
+                                        <div class="col-12">
+                                            Dicha Retención fue consignada oportunamente a nombre de la Dirección de Impuestos y Aduanas Nacionales en la Ciudad de
+                                            <t t-esc="env.company.city"/>
+                                        </div>
+                                        <div class="col-12">
+                                            NO REQUIRE FIRMA AUTOGRAFA. <t t-esc="options['article']"/>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex justify-content-end align-items-center w-50 fw-bold">
+                                        <div t-att-class="report_name.endswith('iva') and 'offset-1 col-11' or 'offset-5 col-7'" style="border: 2px solid black;">
+                                            <div class="col-12 text-center">
+                                                <strong>TOTAL DE IMPUESTOS DESCONTABLES</strong>
+                                            </div>
+                                            <div t-if="report_name.endswith('iva')" class="col-4">
+                                                <div>
+                                                    <strong>MONTO TOTAL OPERACIONAL:</strong> <t t-esc="partner.get('tax_base_amount', 0.0)"/>
+                                                </div>
+                                            </div>
+                                            <div t-att-class="not report_name.endswith('iva') and 'col-6' or 'col-4'">
+                                                <div>
+                                                    <strong>MONTO DEL PAGO SUJETO A:</strong>
+                                                    <t t-if="report_name.endswith('iva')">
+                                                        <t t-esc="partner.get('balance_15_over_19', 0.0)"/>
+                                                    </t>
+                                                    <t t-if="not report_name.endswith('iva')">
+                                                        <t t-esc="partner.get('tax_base_amount', 0.0)"/>
+                                                    </t>
+                                                </div>
+                                            </div>
+                                            <div t-att-class="not report_name.endswith('iva') and 'col-6' or 'col-4'">
+                                                <div>
+                                                    <strong>RETENIDO Y CONSIGNADO:</strong>
+                                                    <t t-esc="partner.get('balance', 0.0)"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </div>
+                </div>
+            </xpath> 
+            <xpath expr="//div[contains(@t-attf-class, 'footer')]" position="replace">
+                <div t-attf-class="o_company_#{company.id}_layout footer o_background_footer">
+                    <div class="text-center">
+                        <div t-if="report_type == 'pdf'" class="text-muted">
+                            Página:
+                            <span class="page"/>
+                            of
+                            <span class="topage"/>
+                        </div>
+                    </div>
+                </div>
+            </xpath> 
+        </template>
+    </data>
+</odoo>

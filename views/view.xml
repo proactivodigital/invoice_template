@@ -27,7 +27,6 @@
                                     <strong>Tipo de operación: </strong> <t t-esc="o.ei_operation"/><br/>
                                     <t t-if="o and 'trm_value' in o and o.trm_value > 0">
                                         <strong>Valor de TRM: </strong> <t t-esc="o.currency_id.symbol" /> <t t-esc="'{:,.2f}'.format(float(o.trm_value)).replace(',', ' ').replace('.', ',').replace(' ', '.')"/><br/>
-                                        
                                     </t>
                                     <t t-if="o and 'name' in o">
                                         <t t-if="str(line.move_type) == 'out_refund'">
@@ -67,6 +66,7 @@
                                         <strong>Plazo de pago:</strong>
                                         <t t-if="doc.payment_term_id.name.lower() != 'pago inmediato'">
                                             <t t-esc="doc.payment_term_id.name"/>
+                                            <t t-esc="doc.payment_term_id.early_discount"/>
                                         </t>
                                         <t t-if="doc.payment_term_id.name.lower() == 'pago inmediato'">
                                             Anticipado
